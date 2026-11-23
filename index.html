@@ -2173,6 +2173,12 @@
                 '<h4 class="text-base font-extrabold text-slate-900">' + escapeHTML(r.servicio) + ' — $' + Number(r.precioTotal).toLocaleString('es-MX', {minimumFractionDigits:2}) + '</h4>' +
                 '<p><strong>Cliente:</strong> ' + escapeHTML(r.clienteNombre) + ' | <strong>Tel:</strong> ' + escapeHTML(r.clienteTelefono) + ' | <strong>Correo:</strong> ' + escapeHTML(r.clienteEmail) + '</p>' +
                 '<p><strong>Evento:</strong> ' + escapeHTML(r.fechaEvento) + ' a las ' + escapeHTML(r.horaEvento) + ' hrs | <strong>Lugar:</strong> ' + escapeHTML(r.ubicacion) + mapLinkHtml + '</p>' +
+                '<div class="pt-2 flex flex-col sm:flex-row gap-2 max-w-xl">' +
+                  '<input type="text" id="nota-adm-' + escapeHTML(r.idReserva) + '" value="' + escapeHTML(r.notasAdmin || '') + '" placeholder="Anotación interna (ej. Dio anticipo de $500, Liquidado, etc.)" class="flex-grow px-3 py-1.5 border border-slate-300 rounded-lg text-xs bg-slate-50 focus:bg-white focus:ring-2 focus:ring-slate-500">' +
+                  '<button type="button" onclick="guardarNotaDesdeAdmin(\'' + escapeHTML(r.idReserva) + '\')" class="bg-slate-800 hover:bg-slate-900 text-white px-3 py-1.5 rounded-lg text-xs font-bold shrink-0 transition">' +
+                    '<i class="fas fa-save mr-1"></i> Guardar Nota' +
+                  '</button>' +
+                '</div>' +
               '</div>' +
               '<div class="flex items-center gap-2 shrink-0">' +
                 '<button type="button" onclick="cambiarEstadoDesdeAdmin(\'' + escapeHTML(r.idReserva) + '\', \'CONFIRMADA\')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-sm transition">' +
@@ -2324,6 +2330,26 @@
         .then(function(res) {
           alert(res.message);
           if (res.success) cargarDatosAdmin();
+        })
+        .catch(function(err) { alert('Error: ' + err.message); });
+    }
+
+    function guardarNotaDesdeAdmin(idReserva) {
+      var input = document.getElementById('nota-adm-' + idReserva);
+      if (!input) return;
+      var nota = input.value.trim();
+
+      apiCall('adminGuardarNotaReserva', { token: sessionToken, idReserva: idReserva, nota: nota })
+        .then(function(res) {
+          alert(res.message);
+          if (res.success) {
+            for (var i = 0; i < adminData.reservas.length; i++) {
+              if (adminData.reservas[i].idReserva === idReserva) {
+                adminData.reservas[i].notasAdmin = nota;
+                break;
+              }
+            }
+          }
         })
         .catch(function(err) { alert('Error: ' + err.message); });
     }

@@ -663,7 +663,21 @@
     const WHATSAPP_NUMERO = '529811379619';
 
     // Cliente API compatible con redirecciones 302 de Google Apps Script
-    function apiCall(action, payload) {
+    function apiCall(action, payload, usarPost) {
+      if (usarPost) {
+        return fetch(APPS_SCRIPT_API_URL, {
+          method: 'POST',
+          redirect: 'follow',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: action, payload: payload || {} })
+        }).then(function(response) {
+          if (!response.ok) {
+            throw new Error('Error HTTP ' + response.status);
+          }
+          return response.json();
+        });
+      }
+
       var url = APPS_SCRIPT_API_URL +
         '?action=' + encodeURIComponent(action) +
         '&payload=' + encodeURIComponent(JSON.stringify(payload || {}));
@@ -2384,3 +2398,4 @@
   </script>
 </body>
 </html>
+

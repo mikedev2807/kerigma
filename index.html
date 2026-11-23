@@ -126,7 +126,7 @@
           Reservaciones en Línea
         </span>
         <h1 class="text-3xl sm:text-5xl font-extrabold leading-tight mb-4 tracking-tight">
-          Misas, Rosarios, Alabanzas...
+          Rosarios, Misas, Alabanzas...
         </h1>
         <p class="text-slate-300 text-base sm:text-lg mb-8 leading-relaxed font-normal">
           Consulta disponibilidad en tiempo real, marca la ubicación exacta en el mapa para calcular el traslado y da seguimiento a tus solicitudes.
@@ -285,7 +285,7 @@
   </footer>
 
   <!-- BOTÓN FLOTANTE DE WHATSAPP -->
-  <a id="floating-whatsapp-link" href="https://wa.me/529811379619?text=Hola%20Kerigma."
+  <a id="floating-whatsapp-link" href="https://wa.me/529811379619?text=Hola%20Kerigma,%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n%20sobre%20sus%20servicios."
      target="_blank"
      rel="noopener noreferrer"
      title="Escríbenos por WhatsApp"
@@ -293,7 +293,7 @@
     <i class="fab fa-whatsapp"></i>
   </a>
 
-  <!-- MODAL 1: AGENDAR FECHA, HORA Y MAPA DE TRASLADO -->
+  <!-- MODAL 1: AGENDAR FECHA, HORA, MAPA DE TRASLADO Y SERVICIO EXTRA CORONACIÓN -->
   <div id="modal-agendar" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
     <div class="bg-white rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl my-auto max-h-[94vh] flex flex-col">
       <div class="bg-brand-charcoal text-white px-6 py-4 flex justify-between items-center shrink-0">
@@ -330,7 +330,7 @@
               <i class="fas fa-map-marked-alt text-red-600 mr-1"></i> 3. Marca la ubicación exacta del evento en el mapa
             </label>
             <button type="button" onclick="usarMiUbicacionGPS()" class="text-xs bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 px-3 py-1 rounded-full font-semibold transition">
-              <i class="fas fa-crosshairs mr-1"></i> Usar mi GPS actual
+              <i class="fas fa-crosshairs mr-1"></i> Usar mi ubicación actual
             </button>
           </div>
 
@@ -355,6 +355,21 @@
           </div>
         </div>
 
+        <!-- OPCIÓN SERVICIO EXTRA: CORONACIÓN -->
+        <div class="bg-amber-50/80 border border-amber-200 rounded-xl p-3.5 flex items-center justify-between gap-3">
+          <label for="check-coronacion" class="flex items-center space-x-3 cursor-pointer select-none">
+            <input type="checkbox" id="check-coronacion" onchange="recalcularTotalModalAgendar()"
+                   class="h-5 w-5 rounded border-amber-400 text-amber-600 focus:ring-amber-500 cursor-pointer">
+            <div>
+              <span class="text-xs sm:text-sm font-bold text-slate-900 block">
+                <i class="fas fa-crown text-amber-500 mr-1"></i> Incluir servicio extra: Coronación
+              </span>
+              <span class="text-[11px] text-slate-600">Acompañamiento musical adicional para acto de coronación</span>
+            </div>
+          </label>
+          <span id="label-precio-coronacion" class="text-xs sm:text-sm font-extrabold text-amber-800 bg-amber-100 px-2.5 py-1 rounded-lg shrink-0">+$0.00</span>
+        </div>
+
         <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2">
           <div class="flex justify-between text-xs text-slate-600">
             <span>Tarifa base del servicio:</span>
@@ -364,8 +379,12 @@
             <span id="desglose-traslado-label">Traslado:</span>
             <strong id="desglose-traslado" class="text-blue-700">$0.00</strong>
           </div>
+          <div id="fila-desglose-coronacion" class="hidden flex justify-between text-xs text-amber-700 font-semibold">
+            <span>Servicio extra (Coronación):</span>
+            <strong id="desglose-coronacion">+$0.00</strong>
+          </div>
           <div class="pt-2 border-t border-slate-200 flex justify-between items-center">
-            <span class="text-sm font-bold text-slate-800">Total con Traslado:</span>
+            <span class="text-sm font-bold text-slate-800">Total Estimado:</span>
             <span id="modal-srv-precio" class="text-xl font-black text-slate-900">$0.00</span>
           </div>
         </div>
@@ -497,7 +516,7 @@
         <h4 class="font-bold text-slate-900 text-sm pt-2">2. Finalidad del uso de tus datos</h4>
         <ul class="list-disc pl-5 space-y-1">
           <li>Validar tu identidad mediante códigos temporales de seguridad enviados a tu correo electrónico.</li>
-          <li>Gestionar, confirmar o cancelar tus solicitudes de reservación y emitir comprobantes en formato PDF.</li>
+          <li>Gestionar, confirmar o cancelar tus solicitudes de reservación musical y emitir comprobantes en formato PDF.</li>
           <li>Calcular la ruta y tarifa de traslado hacia el lugar de tu evento.</li>
           <li>Contactarte vía correo electrónico o WhatsApp para coordinar detalles logísticos de tu evento</li>
         </ul>
@@ -553,7 +572,7 @@
           <i class="fas fa-clipboard-list mr-1.5"></i>Reservaciones
         </button>
         <button type="button" onclick="cambiarTabAdmin('servicios')" id="admin-tab-servicios" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-200 whitespace-nowrap">
-          <i class="fas fa-music mr-1.5"></i>Servicios
+          <i class="fas fa-music mr-1.5"></i>Servicios y Extras
         </button>
         <button type="button" onclick="cambiarTabAdmin('videos')" id="admin-tab-videos" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-200 whitespace-nowrap">
           <i class="fas fa-video mr-1.5"></i>Videos
@@ -659,10 +678,10 @@
     // =========================================================================
     // CONFIGURACIÓN PRINCIPAL (PERSONALIZA ESTOS 2 VALORES)
     // =========================================================================
-    const APPS_SCRIPT_API_URL = 'https://script.google.com/macros/s/AKfycbwzFssM_fgJ4VUYAtYUGxC6YVFR-sUEK2Z-IirYmO8qgHiSpYrH5mFj2-nbTnz88HPb/exec';
-    const WHATSAPP_NUMERO = '529811379619';
+    const APPS_SCRIPT_API_URL = 'PEGA_AQUI_TU_URL_DE_APPS_SCRIPT_EXEC';
+    const WHATSAPP_NUMERO = '529811234567';
 
-    // Cliente API compatible con redirecciones 302 de Google Apps Script
+    // Cliente API (soporta GET y POST para subida de imágenes)
     function apiCall(action, payload, usarPost) {
       if (usarPost) {
         return fetch(APPS_SCRIPT_API_URL, {
@@ -671,9 +690,7 @@
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({ action: action, payload: payload || {} })
         }).then(function(response) {
-          if (!response.ok) {
-            throw new Error('Error HTTP ' + response.status);
-          }
+          if (!response.ok) throw new Error('Error HTTP ' + response.status);
           return response.json();
         });
       }
@@ -686,14 +703,13 @@
         method: 'GET',
         redirect: 'follow'
       }).then(function(response) {
-        if (!response.ok) {
-          throw new Error('Error HTTP ' + response.status);
-        }
+        if (!response.ok) throw new Error('Error HTTP ' + response.status);
         return response.json();
       });
     }
 
     var appData = {
+      precioCoronacion: 300,
       servicios: [],
       videos: [],
       resenas: [],
@@ -747,6 +763,12 @@
     function horaAMinutosJS(horaStr) {
       var partes = String(horaStr).split(':');
       return (parseInt(partes[0], 10) || 0) * 60 + (parseInt(partes[1], 10) || 0);
+    }
+
+    function calcularMinutosTrasladoJS(distanciaKm) {
+      var km = Number(distanciaKm) || 0;
+      if (km <= 0) return 0;
+      return Math.ceil((km / 80) * 60);
     }
 
     window.addEventListener('DOMContentLoaded', function() {
@@ -1033,8 +1055,27 @@
     }
 
     // =========================================================================
-    // MAPA INTERACTIVO Y CÁLCULO DE TRASLADO (OPTIMIZADO PARA MÓVIL Y PC)
+    // MAPA INTERACTIVO, TRASLADO Y CÁLCULO DE CORONACIÓN
     // =========================================================================
+    function recalcularTotalModalAgendar() {
+      if (!servicioSeleccionado) return;
+      var precioBase = Number(servicioSeleccionado.precio) || 0;
+      var costoTraslado = Number(trasladoActual.costoTraslado) || 0;
+      var incluyeCor = document.getElementById('check-coronacion').checked;
+      var costoCor = incluyeCor ? (Number(appData.precioCoronacion) || 0) : 0;
+
+      var filaCor = document.getElementById('fila-desglose-coronacion');
+      if (incluyeCor && costoCor > 0) {
+        filaCor.classList.remove('hidden');
+        document.getElementById('desglose-coronacion').textContent = '+ $' + costoCor.toLocaleString('es-MX', { minimumFractionDigits: 2 });
+      } else {
+        filaCor.classList.add('hidden');
+      }
+
+      var total = precioBase + costoTraslado + costoCor;
+      document.getElementById('modal-srv-precio').textContent = '$' + total.toLocaleString('es-MX', { minimumFractionDigits: 2 }) + ' MXN';
+    }
+
     function inicializarMapaTraslado() {
       var origenLat = (appData.trasladoConfig && appData.trasladoConfig.origenLat) ? appData.trasladoConfig.origenLat : 19.8454;
       var origenLng = (appData.trasladoConfig && appData.trasladoConfig.origenLng) ? appData.trasladoConfig.origenLng : -90.5237;
@@ -1111,6 +1152,10 @@
             trasladoActual.distanciaKm = res.distanciaKm;
             trasladoActual.costoTraslado = res.costoTraslado;
 
+            document.getElementById('desglose-traslado-label').textContent = 'Traslado:';
+            document.getElementById('desglose-traslado').textContent = '+ $' + Number(res.costoTraslado).toLocaleString('es-MX', { minimumFractionDigits: 2 });
+            recalcularTotalModalAgendar();
+
             var fechaElegida = document.getElementById('input-fecha').value;
             if (fechaElegida) {
               var horaPrevia = horaSeleccionada;
@@ -1119,13 +1164,6 @@
                 horaSeleccionada = null;
               }
             }
-
-            var precioBase = Number(servicioSeleccionado.precio) || 0;
-            var totalConTraslado = precioBase + res.costoTraslado;
-
-            document.getElementById('desglose-traslado-label').textContent = 'Traslado:';
-            document.getElementById('desglose-traslado').textContent = '+ $' + Number(res.costoTraslado).toLocaleString('es-MX', { minimumFractionDigits: 2 });
-            document.getElementById('modal-srv-precio').textContent = '$' + totalConTraslado.toLocaleString('es-MX', { minimumFractionDigits: 2 }) + ' MXN';
 
             var inputUbic = document.getElementById('input-ubicacion');
             if (autocompletarTexto && res.direccionDetectada && !inputUbic.value.trim()) {
@@ -1399,6 +1437,9 @@
             if (r.estado === 'CONFIRMADA' || r.estado === 'CONFIRMADO') {
               badgeClass = 'bg-emerald-100 text-emerald-800 border-emerald-300';
               iconClass = 'fas fa-check-circle';
+            } else if (r.estado === 'COMPLETADA') {
+              badgeClass = 'bg-blue-100 text-blue-800 border-blue-300';
+              iconClass = 'fas fa-flag-checkered';
             } else if (r.estado === 'CANCELADA' || r.estado === 'CANCELADO') {
               badgeClass = 'bg-red-100 text-red-800 border-red-300';
               iconClass = 'fas fa-times-circle';
@@ -1440,7 +1481,7 @@
     }
 
     // =========================================================================
-    // SERVICIOS Y CALENDARIO INTELIGENTE
+    // SERVICIOS Y CALENDARIO INTELIGENTE (INCLUYE TRASLADO A 80 KM/H)
     // =========================================================================
     function renderizarServicios() {
       document.getElementById('loader-servicios').classList.add('hidden');
@@ -1483,12 +1524,6 @@
           '</div>';
       }
       grid.innerHTML = html;
-    }
-
-    function calcularMinutosTrasladoJS(distanciaKm) {
-      var km = Number(distanciaKm) || 0;
-      if (km <= 0) return 0;
-      return Math.ceil((km / 80) * 60);
     }
 
     function obtenerBloquesCombinadosFecha(fechaStr) {
@@ -1548,11 +1583,17 @@
       trasladoActual = { calculado: false, calculando: false, lat: null, lng: null, distanciaKm: 0, costoTraslado: 0 };
 
       var precioBaseFormatted = '$' + Number(servicioSeleccionado.precio).toLocaleString('es-MX', { minimumFractionDigits: 2 });
+      var precioCor = Number(appData.precioCoronacion) || 0;
+
       document.getElementById('modal-srv-titulo').textContent = servicioSeleccionado.nombre;
       document.getElementById('modal-srv-duracion').textContent = servicioSeleccionado.duracion;
       document.getElementById('desglose-base').textContent = precioBaseFormatted;
       document.getElementById('desglose-traslado-label').textContent = 'Traslado:';
       document.getElementById('desglose-traslado').textContent = '$0.00';
+
+      document.getElementById('check-coronacion').checked = false;
+      document.getElementById('label-precio-coronacion').textContent = '+$' + precioCor.toLocaleString('es-MX', { minimumFractionDigits: 2 });
+      document.getElementById('fila-desglose-coronacion').classList.add('hidden');
       document.getElementById('modal-srv-precio').textContent = precioBaseFormatted + ' MXN';
 
       document.getElementById('input-ubicacion').value = '';
@@ -1652,7 +1693,7 @@
         var deshabilitada = (conflicto !== null) || yaPasoHoy;
 
         if (deshabilitada) {
-          html += '<button type="button" disabled title="No disponible" class="py-1.5 px-1 rounded-lg text-[11px] font-semibold bg-red-50 text-red-400 border border-red-200 line-through cursor-not-allowed">' + hora + '</button>';
+          html += '<button type="button" disabled title="No disponible (ocupado o en traslado)" class="py-1.5 px-1 rounded-lg text-[11px] font-semibold bg-red-50 text-red-400 border border-red-200 line-through cursor-not-allowed">' + hora + '</button>';
         } else {
           html += '<button type="button" onclick="seleccionarHora(this, \'' + hora + '\')" class="btn-hora py-1.5 px-1 rounded-lg text-[11px] font-semibold bg-white text-slate-700 border border-slate-300 hover:border-slate-800 transition">' + hora + '</button>';
         }
@@ -1704,7 +1745,7 @@
 
       var duracionActualMin = Number(servicioSeleccionado.duracionMinutos) || 60;
       if (verificarSlotChoca(fecha, horaSeleccionada, duracionActualMin)) {
-        errorDiv.textContent = 'Este horario se cruza con otro servicio ya apartado. Por favor elige otro.';
+        errorDiv.textContent = 'Este horario (incluyendo traslado) se cruza con otro servicio ya apartado. Por favor elige otro.';
         errorDiv.classList.remove('hidden');
         renderizarHorasDisponibles(fecha);
         return;
@@ -1712,6 +1753,8 @@
 
       var precioBaseNum = Number(servicioSeleccionado.precio) || 0;
       var costoTrasladoNum = Number(trasladoActual.costoTraslado) || 0;
+      var incluyeCor = document.getElementById('check-coronacion').checked;
+      var costoCoronacionNum = incluyeCor ? (Number(appData.precioCoronacion) || 0) : 0;
 
       carrito.push({
         uid: Date.now(),
@@ -1720,7 +1763,9 @@
         precioBase: precioBaseNum,
         distanciaKm: trasladoActual.distanciaKm,
         costoTraslado: costoTrasladoNum,
-        precio: precioBaseNum + costoTrasladoNum,
+        incluyeCoronacion: incluyeCor,
+        costoCoronacion: costoCoronacionNum,
+        precio: precioBaseNum + costoTrasladoNum + costoCoronacionNum,
         duracion: servicioSeleccionado.duracion,
         duracionMinutos: duracionActualMin,
         fecha: fecha,
@@ -1787,6 +1832,10 @@
       for (var i = 0; i < carrito.length; i++) {
         var item = carrito[i];
         subtotal += Number(item.precio);
+        var corHtml = item.incluyeCoronacion
+          ? '<p class="text-amber-700"><i class="fas fa-crown w-4"></i> <strong>Extra Coronación:</strong> +$' + Number(item.costoCoronacion).toLocaleString('es-MX', { minimumFractionDigits: 2 }) + '</p>'
+          : '';
+
         html +=
           '<div class="bg-slate-50 border border-slate-200 rounded-xl p-4 relative">' +
             '<button type="button" onclick="eliminarDelCarrito(' + item.uid + ')" class="absolute top-3 right-3 text-slate-400 hover:text-red-500 text-sm">' +
@@ -1797,9 +1846,10 @@
               '<p><i class="far fa-calendar text-slate-500 w-4"></i> <strong>Fecha:</strong> ' + escapeHTML(item.fecha) + ' a las ' + escapeHTML(item.hora) + ' hrs</p>' +
               '<p><i class="fas fa-map-marker-alt text-slate-500 w-4"></i> <strong>Lugar:</strong> ' + escapeHTML(item.ubicacion) + '</p>' +
               '<p class="text-blue-700"><i class="fas fa-route w-4"></i> <strong>Traslado:</strong> +$' + Number(item.costoTraslado).toLocaleString('es-MX', { minimumFractionDigits: 2 }) + '</p>' +
+              corHtml +
             '</div>' +
             '<div class="mt-3 pt-2 border-t border-slate-200/80 flex justify-between items-center">' +
-              '<span class="text-xs text-slate-500">Subtotal (Servicio + Traslado)</span>' +
+              '<span class="text-xs text-slate-500">Subtotal del ítem</span>' +
               '<span class="font-bold text-slate-900">$' + Number(item.precio).toLocaleString('es-MX', { minimumFractionDigits: 2 }) + '</span>' +
             '</div>' +
           '</div>';
@@ -2029,7 +2079,7 @@
     // =========================================================================
     // PANEL DE ADMINISTRACIÓN (EXCLUSIVO PARA ROL ADMIN)
     // =========================================================================
-    var adminData = { reservas: [], servicios: [], videos: [], cupones: [] };
+    var adminData = { precioCoronacion: 300, reservas: [], servicios: [], videos: [], cupones: [] };
     var adminTabActual = 'reservas';
     var filtroEstadoAdmin = 'TODAS';
 
@@ -2070,6 +2120,9 @@
             return;
           }
           adminData = res;
+          if (res.precioCoronacion !== undefined) {
+            appData.precioCoronacion = res.precioCoronacion;
+          }
           renderizarVistaAdmin();
         })
         .catch(function(err) {
@@ -2088,7 +2141,7 @@
         var html =
           '<div class="flex flex-wrap justify-between items-center gap-3 mb-5">' +
             '<div class="flex flex-wrap gap-2">' +
-              ['TODAS', 'PENDIENTE', 'CONFIRMADA', 'CANCELADA'].map(function(est) {
+              ['TODAS', 'PENDIENTE', 'CONFIRMADA', 'COMPLETADA', 'CANCELADA'].map(function(est) {
                 var act = (filtroEstadoAdmin === est) ? 'bg-slate-800 text-white' : 'bg-white text-slate-700 border border-slate-300';
                 return '<button type="button" onclick="filtroEstadoAdmin=\'' + est + '\';renderizarVistaAdmin()" class="px-3 py-1.5 rounded-lg text-xs font-bold ' + act + '">' + est + '</button>';
               }).join('') +
@@ -2103,6 +2156,7 @@
         filtradas.forEach(function(r) {
           var badge = 'bg-amber-100 text-amber-800 border-amber-300';
           if (r.estado === 'CONFIRMADA') badge = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+          if (r.estado === 'COMPLETADA') badge = 'bg-blue-100 text-blue-800 border-blue-300';
           if (r.estado === 'CANCELADA') badge = 'bg-red-100 text-red-800 border-red-300';
 
           var mapLinkHtml = r.mapsLink
@@ -2135,6 +2189,19 @@
       }
 
       else if (adminTabActual === 'servicios') {
+        var precioCorActual = Number(adminData.precioCoronacion !== undefined ? adminData.precioCoronacion : appData.precioCoronacion);
+        var htmlCor =
+          '<div class="bg-amber-50 border border-amber-200 p-4 rounded-xl mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">' +
+            '<div>' +
+              '<h4 class="font-bold text-sm text-slate-900"><i class="fas fa-crown text-amber-500 mr-1.5"></i> Precio Servicio Extra: Coronación</h4>' +
+              '<p class="text-xs text-slate-600">Este monto se sumará cuando el cliente active la casilla "Coronación" al reservar.</p>' +
+            '</div>' +
+            '<div class="flex items-center gap-2">' +
+              '<input type="number" id="adm-precio-coronacion" value="' + precioCorActual + '" class="w-32 px-3 py-2 border border-amber-300 rounded-lg text-xs font-bold bg-white">' +
+              '<button type="button" onclick="guardarPrecioCoronacionAdmin()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-4 py-2 rounded-lg text-xs font-extrabold transition">Actualizar</button>' +
+            '</div>' +
+          '</div>';
+
         var htmlS =
           '<div class="bg-white p-4 rounded-xl border border-slate-200 mb-6">' +
             '<h4 class="font-bold text-sm text-slate-900 mb-3"><i class="fas fa-plus-circle mr-1"></i> Agregar / Editar Servicio</h4>' +
@@ -2176,7 +2243,7 @@
             '</div>';
         });
         htmlS += '</div>';
-        cont.innerHTML = htmlS;
+        cont.innerHTML = htmlCor + htmlS;
       }
 
       else if (adminTabActual === 'videos') {
@@ -2235,9 +2302,11 @@
       else if (adminTabActual === 'calendario') {
         var activos = adminData.reservas.filter(function(r) { return r.estado !== 'CANCELADA'; });
         activos.sort(function(a, b) { return (a.fechaEvento + a.horaEvento).localeCompare(b.fechaEvento + b.horaEvento); });
-        var htmlCal = '<h4 class="font-bold text-sm text-slate-900 mb-4">Agenda Cronológica de Eventos (Confirmados y Pendientes)</h4><div class="space-y-2.5">';
+        var htmlCal = '<h4 class="font-bold text-sm text-slate-900 mb-4">Agenda Cronológica de Eventos (Confirmados, Completados y Pendientes)</h4><div class="space-y-2.5">';
         activos.forEach(function(r) {
-          var color = r.estado === 'CONFIRMADA' ? 'border-l-4 border-l-emerald-500' : 'border-l-4 border-l-amber-400';
+          var color = 'border-l-4 border-l-amber-400';
+          if (r.estado === 'CONFIRMADA') color = 'border-l-4 border-l-emerald-500';
+          if (r.estado === 'COMPLETADA') color = 'border-l-4 border-l-blue-500';
           htmlCal +=
             '<div class="bg-white p-3.5 rounded-xl border border-slate-200 ' + color + ' flex flex-wrap justify-between items-center text-xs">' +
               '<div><strong class="text-slate-900 text-sm">' + escapeHTML(r.fechaEvento) + ' — ' + escapeHTML(r.horaEvento) + ' hrs</strong> | ' + escapeHTML(r.servicio) + ' (' + escapeHTML(r.clienteNombre) + ')</div>' +
@@ -2259,6 +2328,17 @@
         .catch(function(err) { alert('Error: ' + err.message); });
     }
 
+    function guardarPrecioCoronacionAdmin() {
+      var val = document.getElementById('adm-precio-coronacion').value;
+      apiCall('adminGuardarPrecioCoronacion', { token: sessionToken, precio: val }).then(function(res) {
+        alert(res.message);
+        if (res.success) {
+          adminData.precioCoronacion = res.precioCoronacion;
+          appData.precioCoronacion = res.precioCoronacion;
+        }
+      });
+    }
+
     function editarServicioAdmin(s) {
       document.getElementById('adm-srv-id').value = s.id;
       document.getElementById('adm-srv-nombre').value = s.nombre;
@@ -2276,6 +2356,7 @@
       document.getElementById('adm-srv-duracion').value = '';
       document.getElementById('adm-srv-imagen').value = '';
       document.getElementById('adm-srv-desc').value = '';
+      document.getElementById('adm-srv-upload-status').textContent = '';
     }
 
     function guardarServicioAdmin() {
@@ -2307,7 +2388,6 @@
       reader.onload = function(e) {
         var img = new Image();
         img.onload = function() {
-          // Redimensionar a máximo 1000px para que suba rápido desde datos móviles
           var canvas = document.createElement('canvas');
           var maxDim = 1000;
           var w = img.width;
@@ -2398,4 +2478,3 @@
   </script>
 </body>
 </html>
-

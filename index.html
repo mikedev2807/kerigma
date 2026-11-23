@@ -1097,6 +1097,15 @@
             trasladoActual.distanciaKm = res.distanciaKm;
             trasladoActual.costoTraslado = res.costoTraslado;
 
+            var fechaElegida = document.getElementById('input-fecha').value;
+            if (fechaElegida) {
+              var horaPrevia = horaSeleccionada;
+              renderizarHorasDisponibles(fechaElegida);
+              if (horaPrevia && verificarSlotChoca(fechaElegida, horaPrevia, Number(servicioSeleccionado.duracionMinutos) || 60)) {
+                horaSeleccionada = null;
+              }
+            }
+
             var precioBase = Number(servicioSeleccionado.precio) || 0;
             var totalConTraslado = precioBase + res.costoTraslado;
 
@@ -1462,6 +1471,12 @@
       grid.innerHTML = html;
     }
 
+    function calcularMinutosTrasladoJS(distanciaKm) {
+      var km = Number(distanciaKm) || 0;
+      if (km <= 0) return 0;
+      return Math.ceil((km / 80) * 60);
+    }
+
     function obtenerBloquesCombinadosFecha(fechaStr) {
       var lista = [];
       var delServidor = (appData.bloquesOcupados && appData.bloquesOcupados[fechaStr]) ? appData.bloquesOcupados[fechaStr] : [];
@@ -1474,11 +1489,12 @@
       }
       for (var c = 0; c < carrito.length; c++) {
         if (carrito[c].fecha === fechaStr) {
-          var ini = horaAMinutosJS(carrito[c].hora);
+          var horaEv = horaAMinutosJS(carrito[c].hora);
           var dur = Number(carrito[c].duracionMinutos) || 60;
+          var tras = calcularMinutosTrasladoJS(carrito[c].distanciaKm);
           lista.push({
-            inicio: ini,
-            fin: ini + dur,
+            inicio: Math.max(0, horaEv - tras),
+            fin: horaEv + dur + tras,
             origen: 'carrito'
           });
         }
@@ -1487,10 +1503,14 @@
     }
 
     function verificarSlotChoca(fechaStr, horaSlot, duracionServicioMin) {
-      var inicioPropuesto = horaAMinutosJS(horaSlot);
-      var finPropuesto = inicioPropuesto + duracionServicioMin;
-      var bloques = obtenerBloquesCombinadosFecha(fechaStr);
+      var horaPropuesta = horaAMinutosJS(horaSlot);
+      var trasladoNuevo = (trasladoActual && trasladoActual.calculado)
+        ? calcularMinutosTrasladoJS(trasladoActual.distanciaKm)
+        : 0;
+      var inicioPropuesto = Math.max(0, horaPropuesta - trasladoNuevo);
+      var finPropuesto = horaPropuesta + duracionServicioMin + trasladoNuevo;
 
+      var bloques = obtenerBloquesCombinadosFecha(fechaStr);
       for (var i = 0; i < bloques.length; i++) {
         var b = bloques[i];
         if (inicioPropuesto < b.fin && finPropuesto > b.inicio) {
@@ -2110,11 +2130,20 @@
               '<input type="number" id="adm-srv-precio" placeholder="Precio base MXN *" class="px-3 py-2 border rounded-lg">' +
               '<input type="text" id="adm-srv-duracion" placeholder="Duración (ej. 1.5 horas)" class="px-3 py-2 border rounded-lg">' +
               '<select id="adm-srv-activo" class="px-3 py-2 border rounded-lg"><option value="SI">Activo: SI</option><option value="NO">Activo: NO</option></select>' +
-              '<input type="text" id="adm-srv-imagen" placeholder="URL de imagen (o link de Drive)" class="sm:col-span-2 px-3 py-2 border rounded-lg">' +
+              '<div class="sm:col-span-2 flex flex-col gap-1.5">' +
+                '<div class="flex gap-2">' +
+                  '<label class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg font-bold cursor-pointer inline-flex items-center shrink-0 transition">' +
+                    '<i class="fas fa-camera mr-1.5"></i> Elegir de Galería' +
+                    '<input type="file" id="adm-srv-file" accept="image/*" onchange="subirFotoServicioDesdeGaleria(this)" class="hidden">' +
+                  '</label>' +
+                  '<input type="text" id="adm-srv-imagen" placeholder="URL de imagen (se llena automático al subir)" class="w-full px-3 py-2 border rounded-lg bg-slate-50">' +
+                '</div>' +
+                '<span id="adm-srv-upload-status" class="text-[11px] text-slate-500"></span>' +
+              '</div>' +
               '<input type="text" id="adm-srv-desc" placeholder="Descripción breve del servicio" class="sm:col-span-2 px-3 py-2 border rounded-lg">' +
             '</div>' +
             '<div class="mt-3 flex gap-2">' +
-              '<button type="button" onclick="guardarServicioAdmin()" class="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold">Guardar Servicio</button>' +
+              '<button type="button" id="btn-guardar-srv-admin" onclick="guardarServicioAdmin()" class="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold">Guardar Servicio</button>' +
               '<button type="button" onclick="limpiarFormServicioAdmin()" class="bg-slate-200 text-slate-700 px-3 py-2 rounded-lg text-xs font-semibold">Limpiar</button>' +
             '</div>' +
           '</div><div class="grid grid-cols-1 md:grid-cols-2 gap-3">';
@@ -2249,6 +2278,60 @@
         alert(res.message);
         if (res.success) cargarDatosAdmin();
       });
+    }
+
+    function subirFotoServicioDesdeGaleria(input) {
+      if (!input.files || !input.files[0]) return;
+      var file = input.files[0];
+      var statusEl = document.getElementById('adm-srv-upload-status');
+      var btnGuardar = document.getElementById('btn-guardar-srv-admin');
+
+      statusEl.innerHTML = '<i class="fas fa-spinner fa-spin text-blue-600"></i> Optimizando y subiendo imagen a Google Drive...';
+      btnGuardar.disabled = true;
+
+      var reader = new FileReader();
+      reader.onload = function(e) {
+        var img = new Image();
+        img.onload = function() {
+          // Redimensionar a máximo 1000px para que suba rápido desde datos móviles
+          var canvas = document.createElement('canvas');
+          var maxDim = 1000;
+          var w = img.width;
+          var h = img.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) { h = Math.round((h * maxDim) / w); w = maxDim; }
+            else { w = Math.round((w * maxDim) / h); h = maxDim; }
+          }
+          canvas.width = w;
+          canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+
+          var dataUrl = canvas.toDataURL('image/jpeg', 0.82);
+          var base64Clean = dataUrl.split(',')[1];
+
+          apiCall('adminSubirImagenServicio', {
+            token: sessionToken,
+            base64: base64Clean,
+            mimeType: 'image/jpeg',
+            fileName: 'kerigma_' + Date.now() + '.jpg'
+          }, true)
+            .then(function(res) {
+              btnGuardar.disabled = false;
+              if (res && res.success) {
+                document.getElementById('adm-srv-imagen').value = res.url;
+                statusEl.innerHTML = '<span class="text-emerald-600 font-bold"><i class="fas fa-check-circle"></i> Imagen subida a Drive y vinculada.</span>';
+              } else {
+                statusEl.innerHTML = '<span class="text-red-600 font-bold">' + escapeHTML(res.message || 'Error al subir') + '</span>';
+              }
+            })
+            .catch(function(err) {
+              btnGuardar.disabled = false;
+              statusEl.innerHTML = '<span class="text-red-600 font-bold">Error de red: ' + escapeHTML(err.message) + '</span>';
+            });
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
 
     function editarVideoAdmin(v) {

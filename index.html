@@ -31,71 +31,6 @@
     ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
   </style>
 </head>
-  <!-- MODAL 4: POLÍTICA DE PRIVACIDAD -->
-  <div id="modal-privacidad" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-4">
-    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[88vh] flex flex-col overflow-hidden shadow-2xl">
-      <div class="bg-brand-charcoal text-white px-6 py-4 flex justify-between items-center shrink-0">
-        <div>
-          <span class="text-[11px] text-amber-300 font-semibold uppercase tracking-wider">Aviso Legal y Protección de Datos</span>
-          <h3 class="font-bold text-lg">Política de Privacidad — Kerigma</h3>
-        </div>
-        <button type="button" onclick="cerrarModalPrivacidad()" class="text-slate-300 hover:text-white text-xl"><i class="fas fa-times"></i></button>
-      </div>
-
-      <div class="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed flex-grow">
-        <p class="font-semibold text-slate-900">Última actualización: Noviembre 2026</p>
-        <p>
-          <strong>Kerigma ("El que canta ora dos veces")</strong> respeta tu privacidad y se compromete a proteger los datos personales que nos proporcionas a través de nuestra plataforma de reservaciones en línea.
-        </p>
-
-        <h4 class="font-bold text-slate-900 text-sm pt-2">1. Datos personales que recopilamos</h4>
-        <p>Para brindarte nuestros servicios y calcular costos de traslado, podremos recabar y almacenar de forma segura los siguientes datos:</p>
-        <ul class="list-disc pl-5 space-y-1">
-          <li><strong>Datos de identificación y contacto:</strong> Nombre completo, correo electrónico y número telefónico / WhatsApp.</li>
-          <li><strong>Datos de ubicación del evento:</strong> Dirección textual, parroquia o salón, así como coordenadas geográficas seleccionadas en el mapa o mediante GPS (únicamente cuando tú lo autorizas expresamente para calcular la distancia de traslado).</li>
-          <li><strong>Historial de servicios:</strong> Fechas, horarios reservaciones, comprobantes y calificaciones publicadas.</li>
-        </ul>
-
-        <h4 class="font-bold text-slate-900 text-sm pt-2">2. Finalidad del uso de tus datos</h4>
-        <ul class="list-disc pl-5 space-y-1">
-          <li>Validar tu identidad mediante códigos temporales de seguridad enviados a tu correo electrónico.</li>
-          <li>Gestionar, confirmar o cancelar tus solicitudes de reservación y emitir comprobantes en formato PDF.</li>
-          <li>Calcular la ruta y tarifa de traslado hacia el lugar de tu evento.</li>
-          <li>Contactarte vía correo electrónico o WhatsApp para coordinar detalles logísticos de tu evento.</li>
-        </ul>
-
-        <h4 class="font-bold text-slate-900 text-sm pt-2">3. Resguardo y Derechos ARCO</h4>
-        <p>
-          Tus datos no se venden ni comparten con terceros con fines publicitarios. Puedes solicitar el acceso, rectificación o eliminación de tu historial de contacto en cualquier momento enviando un mensaje a nuestro correo oficial de atención kerigma104@gmail.com.
-        </p>
-
-        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-4">
-          <span class="text-xs text-slate-600"><i class="far fa-file-pdf text-red-600 mr-1.5"></i>¿Prefieres consultar o descargar el documento oficial?</span>
-          <a href="https://drive.google.com/file/d/19b8aoe2onLn-cQ82xkCNc3jmEXw1kbkc/view?usp=sharing" target="_blank" rel="noopener noreferrer"
-             class="inline-flex items-center justify-center bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 px-3.5 py-2 rounded-lg text-xs font-bold transition shrink-0">
-            <i class="fas fa-external-link-alt mr-1.5"></i> Ver en Drive
-          </a>
-        </div>
-      </div>
-
-      <div class="bg-slate-50 px-6 py-3.5 border-t border-slate-200 flex justify-end space-x-3 shrink-0">
-        <button type="button" onclick="cerrarModalPrivacidad()" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-200 transition">Cerrar</button>
-        <button type="button" onclick="aceptarPoliticaDesdeModal()" class="bg-brand-charcoal hover:bg-slate-800 text-white px-5 py-2 rounded-xl text-xs font-bold shadow transition">
-          <i class="fas fa-check mr-1"></i> Aceptar Política de Privacidad
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- BOTÓN FLOTANTE DE WHATSAPP -->
-  <a href="https://wa.me/529811379619?text=Hola%20Kerigma,%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n%20sobre%20sus%20servicios."
-     target="_blank"
-     rel="noopener noreferrer"
-     title="Escríbenos por WhatsApp"
-     class="fixed bottom-5 right-5 z-40 w-13 h-13 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full shadow-xl flex items-center justify-center text-2xl hover:scale-105 transition">
-    <i class="fab fa-whatsapp"></i>
-  </a>
-  
 <body class="min-h-screen flex flex-col">
 
   <!-- NAVBAR -->
@@ -153,7 +88,7 @@
           </button>
         </div>
 
-        <div class="flex items-center space-x-2.5 sm:space-x-3">
+        <div class="flex items-center space-x-2 sm:space-x-3">
           <button type="button" onclick="abrirMisReservaciones()" title="Mis Reservaciones" class="md:hidden bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 p-2.5 rounded-full text-xs font-semibold transition">
             <i class="far fa-calendar-check text-slate-700"></i>
           </button>
@@ -191,7 +126,7 @@
           Reservaciones en Línea
         </span>
         <h1 class="text-3xl sm:text-5xl font-extrabold leading-tight mb-4 tracking-tight">
-          Rosarios, Misas, Alabanzas...
+          Misas, Rosarios, Alabanzas...
         </h1>
         <p class="text-slate-300 text-base sm:text-lg mb-8 leading-relaxed font-normal">
           Consulta disponibilidad en tiempo real, marca la ubicación exacta en el mapa para calcular el traslado y da seguimiento a tus solicitudes.
@@ -233,7 +168,7 @@
         <span class="text-slate-400 text-xs font-bold uppercase tracking-widest">Galería Multimedia</span>
         <h2 class="text-2xl sm:text-3xl font-extrabold mt-1">Conoce Nuestro Ministerio</h2>
         <div class="w-16 h-1 bg-white/40 mx-auto my-3 rounded-full"></div>
-        <p class="text-slate-300 text-sm sm:text-base">Explora nuestro repertorio</p>
+        <p class="text-slate-300 text-sm sm:text-base">Explora nuestro repertorio dividido en Cantos, Alabanzas y Rosarios.</p>
       </div>
 
       <div class="flex flex-wrap justify-center gap-3 mb-10">
@@ -323,7 +258,7 @@
     </div>
   </section>
 
-   <!-- FOOTER -->
+  <!-- FOOTER CON WHATSAPP Y POLÍTICA DE PRIVACIDAD -->
   <footer class="bg-white text-slate-600 py-10 border-t border-slate-200 text-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-6">
       <div class="text-center sm:text-left">
@@ -332,7 +267,7 @@
       </div>
 
       <div class="flex flex-col sm:flex-row items-center gap-4">
-        <a href="https://wa.me/529811379619?text=Hola%20Kerigma,%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n%20sobre%20sus%20servicios."
+        <a id="footer-whatsapp-link" href="https://wa.me/529811379619?text=Hola%20Kerigma,%20me%20gustar%C3%ADa%20solicitar%20informaci%C3%B3n%20sobre%20sus%20servicios."
            target="_blank"
            rel="noopener noreferrer"
            class="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2.5 rounded-full text-xs font-bold shadow-sm transition">
@@ -348,6 +283,15 @@
       <p class="text-xs text-slate-400 text-center sm:text-right">© 2026 Kerigma. Todos los derechos reservados.</p>
     </div>
   </footer>
+
+  <!-- BOTÓN FLOTANTE DE WHATSAPP -->
+  <a id="floating-whatsapp-link" href="https://wa.me/529811379619?text=Hola%20Kerigma."
+     target="_blank"
+     rel="noopener noreferrer"
+     title="Escríbenos por WhatsApp"
+     class="fixed bottom-5 right-5 z-40 w-12 h-12 bg-emerald-500 hover:bg-emerald-600 text-white rounded-full shadow-xl flex items-center justify-center text-2xl hover:scale-105 transition">
+    <i class="fab fa-whatsapp"></i>
+  </a>
 
   <!-- MODAL 1: AGENDAR FECHA, HORA Y MAPA DE TRASLADO -->
   <div id="modal-agendar" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
@@ -438,7 +382,7 @@
     </div>
   </div>
 
-  <!-- MODAL 2: AUTENTICACIÓN EXCLUSIVA POR CORREO ELECTRÓNICO (OTP) -->
+  <!-- MODAL 2: AUTENTICACIÓN POR CORREO ELECTRÓNICO (OTP) CON POLÍTICA DE PRIVACIDAD -->
   <div id="modal-auth" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
     <div class="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl">
       <div class="bg-brand-charcoal text-white p-6 text-center relative">
@@ -522,6 +466,107 @@
       <div class="bg-slate-50 px-6 py-3 border-t border-slate-200 text-right">
         <button type="button" onclick="cerrarMisReservaciones()" class="bg-brand-charcoal text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-slate-800 transition">Cerrar</button>
       </div>
+    </div>
+  </div>
+
+  <!-- MODAL 4: POLÍTICA DE PRIVACIDAD -->
+  <div id="modal-privacidad" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-[60] hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[88vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="bg-brand-charcoal text-white px-6 py-4 flex justify-between items-center shrink-0">
+        <div>
+          <span class="text-[11px] text-amber-300 font-semibold uppercase tracking-wider">Aviso Legal y Protección de Datos</span>
+          <h3 class="font-bold text-lg">Política de Privacidad — Kerigma</h3>
+        </div>
+        <button type="button" onclick="cerrarModalPrivacidad()" class="text-slate-300 hover:text-white text-xl"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4 text-xs sm:text-sm text-slate-700 leading-relaxed flex-grow">
+        <p class="font-semibold text-slate-900">Última actualización: Noviembre 2026</p>
+        <p>
+          <strong>Kerigma ("El que canta ora dos veces")</strong> respeta tu privacidad y se compromete a proteger los datos personales que nos proporcionas a través de nuestra plataforma de reservaciones en línea.
+        </p>
+
+        <h4 class="font-bold text-slate-900 text-sm pt-2">1. Datos personales que recopilamos</h4>
+        <p>Para brindarte nuestros servicios musicales y calcular costos de traslado, podremos recabar y almacenar de forma segura los siguientes datos:</p>
+        <ul class="list-disc pl-5 space-y-1">
+          <li><strong>Datos de identificación y contacto:</strong> Nombre completo, correo electrónico y número telefónico / WhatsApp.</li>
+          <li><strong>Datos de ubicación del evento:</strong> Dirección textual, parroquia o salón, así como coordenadas geográficas seleccionadas en el mapa o mediante GPS (únicamente cuando tú lo autorizas expresamente para calcular la distancia de traslado).</li>
+          <li><strong>Historial de servicios:</strong> Fechas, horarios reservaciones, comprobantes y calificaciones publicadas.</li>
+        </ul>
+
+        <h4 class="font-bold text-slate-900 text-sm pt-2">2. Finalidad del uso de tus datos</h4>
+        <ul class="list-disc pl-5 space-y-1">
+          <li>Validar tu identidad mediante códigos temporales de seguridad enviados a tu correo electrónico.</li>
+          <li>Gestionar, confirmar o cancelar tus solicitudes de reservación y emitir comprobantes en formato PDF.</li>
+          <li>Calcular la ruta y tarifa de traslado hacia el lugar de tu evento.</li>
+          <li>Contactarte vía correo electrónico o WhatsApp para coordinar detalles logísticos de tu evento</li>
+        </ul>
+
+        <h4 class="font-bold text-slate-900 text-sm pt-2">3. Resguardo y Derechos ARCO</h4>
+        <p>
+          Tus datos no se venden ni comparten con terceros con fines publicitarios. Puedes solicitar el acceso, rectificación o eliminación de tu historial de contacto en cualquier momento enviando un mensaje a nuestro correo oficial de atención kerigma104@gmail.com.
+        </p>
+
+        <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-4">
+          <span class="text-xs text-slate-600"><i class="far fa-file-pdf text-red-600 mr-1.5"></i>¿Prefieres consultar o descargar el documento oficial en PDF?</span>
+          <a href="https://drive.google.com/file/d/19b8aoe2onLn-cQ82xkCNc3jmEXw1kbkc/view?usp=drive_link" target="_blank" rel="noopener noreferrer"
+             class="inline-flex items-center justify-center bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 px-3.5 py-2 rounded-lg text-xs font-bold transition shrink-0">
+            <i class="fas fa-external-link-alt mr-1.5"></i> Ver PDF en Drive
+          </a>
+        </div>
+      </div>
+
+      <div class="bg-slate-50 px-6 py-3.5 border-t border-slate-200 flex justify-end space-x-3 shrink-0">
+        <button type="button" onclick="cerrarModalPrivacidad()" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-200 transition">Cerrar</button>
+        <button type="button" onclick="aceptarPoliticaDesdeModal()" class="bg-brand-charcoal hover:bg-slate-800 text-white px-5 py-2 rounded-xl text-xs font-bold shadow transition">
+          <i class="fas fa-check mr-1"></i> Aceptar Política de Privacidad
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 5: PANEL DE ADMINISTRACIÓN (EXCLUSIVO ROL ADMIN) -->
+  <div id="modal-panel-admin" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-[70] hidden flex items-center justify-center p-2 sm:p-4">
+    <div class="bg-white rounded-2xl max-w-6xl w-full h-[92vh] flex flex-col overflow-hidden shadow-2xl border border-slate-300">
+      <div class="bg-slate-900 text-white px-5 py-4 flex flex-wrap justify-between items-center gap-3 shrink-0">
+        <div class="flex items-center space-x-3">
+          <div class="w-9 h-9 rounded-lg bg-amber-400 text-slate-950 flex items-center justify-center font-black">
+            <i class="fas fa-crown"></i>
+          </div>
+          <div>
+            <h3 class="font-extrabold text-base sm:text-lg tracking-wide">Panel de Administración — Kerigma</h3>
+            <p class="text-[11px] text-slate-400">Gestión integral conectada a Google Sheets</p>
+          </div>
+        </div>
+        <div class="flex items-center space-x-2">
+          <button type="button" onclick="cargarDatosAdmin()" class="bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition">
+            <i class="fas fa-sync-alt mr-1"></i> Sincronizar
+          </button>
+          <button type="button" onclick="cerrarPanelAdmin()" class="text-slate-300 hover:text-white text-xl px-2">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-slate-100 px-4 py-2.5 border-b border-slate-200 flex overflow-x-auto gap-2 shrink-0">
+        <button type="button" onclick="cambiarTabAdmin('reservas')" id="admin-tab-reservas" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-white shadow-sm whitespace-nowrap">
+          <i class="fas fa-clipboard-list mr-1.5"></i>Reservaciones
+        </button>
+        <button type="button" onclick="cambiarTabAdmin('servicios')" id="admin-tab-servicios" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-200 whitespace-nowrap">
+          <i class="fas fa-music mr-1.5"></i>Servicios
+        </button>
+        <button type="button" onclick="cambiarTabAdmin('videos')" id="admin-tab-videos" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-200 whitespace-nowrap">
+          <i class="fas fa-video mr-1.5"></i>Videos
+        </button>
+        <button type="button" onclick="cambiarTabAdmin('cupones')" id="admin-tab-cupones" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-200 whitespace-nowrap">
+          <i class="fas fa-tags mr-1.5"></i>Cupones
+        </button>
+        <button type="button" onclick="cambiarTabAdmin('calendario')" id="admin-tab-calendario" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-200 whitespace-nowrap">
+          <i class="fas fa-calendar-alt mr-1.5"></i>Agenda / Calendario
+        </button>
+      </div>
+
+      <div id="admin-contenido" class="p-4 sm:p-6 overflow-y-auto flex-grow bg-slate-50"></div>
     </div>
   </div>
 
@@ -612,10 +657,12 @@
 
   <script>
     // =========================================================================
-    // CONFIGURACIÓN DE CONEXIÓN CON GOOGLE APPS SCRIPT (BACKEND API REST)
+    // CONFIGURACIÓN PRINCIPAL (PERSONALIZA ESTOS 2 VALORES)
     // =========================================================================
-    const APPS_SCRIPT_API_URL = 'https://script.google.com/macros/s/AKfycbwzFssM_fgJ4VUYAtYUGxC6YVFR-sUEK2Z-IirYmO8qgHiSpYrH5mFj2-nbTnz88HPb/exec';
+    const APPS_SCRIPT_API_URL = 'PEGA_AQUI_TU_URL_DE_APPS_SCRIPT_EXEC';
+    const WHATSAPP_NUMERO = '529811379619';
 
+    // Cliente API compatible con redirecciones 302 de Google Apps Script
     function apiCall(action, payload) {
       var url = APPS_SCRIPT_API_URL +
         '?action=' + encodeURIComponent(action) +
@@ -666,6 +713,7 @@
     var inactivityTimer = null;
     var sessionToken = sessionStorage.getItem('kerigma_token') || null;
     var userEmail = sessionStorage.getItem('kerigma_email') || null;
+    var userRol = sessionStorage.getItem('kerigma_rol') || 'CLIENTE';
     var pendingActionAfterAuth = null;
 
     function escapeHTML(str) {
@@ -688,12 +736,24 @@
     }
 
     window.addEventListener('DOMContentLoaded', function() {
+      configurarEnlacesWhatsApp();
       actualizarUIUsuario();
       actualizarCarritoUI();
       seleccionarEstrellas(5);
       iniciarMonitorInactividad();
       cargarDatosServidor();
     });
+
+    function configurarEnlacesWhatsApp() {
+      var footerLink = document.getElementById('footer-whatsapp-link');
+      var floatLink = document.getElementById('floating-whatsapp-link');
+      if (footerLink) {
+        footerLink.href = 'https://wa.me/' + WHATSAPP_NUMERO + '?text=' + encodeURIComponent('Hola Kerigma, me gustaría solicitar información sobre sus servicios musicales.');
+      }
+      if (floatLink) {
+        floatLink.href = 'https://wa.me/' + WHATSAPP_NUMERO + '?text=' + encodeURIComponent('Hola Kerigma, tengo una duda sobre una reservación.');
+      }
+    }
 
     function cargarDatosServidor() {
       apiCall('obtenerDatosIniciales', {})
@@ -729,8 +789,10 @@
       var tokenAnterior = sessionToken;
       sessionToken = null;
       userEmail = null;
+      userRol = 'CLIENTE';
       sessionStorage.removeItem('kerigma_token');
       sessionStorage.removeItem('kerigma_email');
+      sessionStorage.removeItem('kerigma_rol');
       sessionStorage.removeItem('kerigma_nombre');
       sessionStorage.removeItem('kerigma_telefono');
       clearTimeout(inactivityTimer);
@@ -750,8 +812,15 @@
       var bannerEmail = document.getElementById('banner-email');
 
       if (sessionToken && userEmail) {
+        var btnAdminHtml = (userRol === 'ADMIN')
+          ? '<button type="button" onclick="abrirPanelAdmin()" class="bg-amber-400 hover:bg-amber-500 text-slate-950 px-3 sm:px-4 py-2 rounded-full text-xs font-extrabold shadow-sm transition flex items-center space-x-1.5">' +
+              '<i class="fas fa-crown"></i><span>Panel Admin</span>' +
+            '</button>'
+          : '';
+
         area.innerHTML =
           '<div class="flex items-center space-x-2">' +
+            btnAdminHtml +
             '<span class="hidden xl:inline text-xs text-slate-700 bg-slate-100 px-3 py-1.5 rounded-full border border-slate-300 font-medium">' +
               '<i class="fas fa-check-circle text-emerald-600 mr-1"></i>' + escapeHTML(userEmail) +
             '</span>' +
@@ -760,7 +829,7 @@
             '</button>' +
           '</div>';
         banner.classList.remove('hidden');
-        bannerEmail.textContent = userEmail;
+        bannerEmail.textContent = userEmail + (userRol === 'ADMIN' ? ' (Administrador)' : '');
 
         var savedName = sessionStorage.getItem('kerigma_nombre');
         var savedPhone = sessionStorage.getItem('kerigma_telefono');
@@ -781,6 +850,9 @@
       }
     }
 
+    // =========================================================================
+    // POLÍTICA DE PRIVACIDAD
+    // =========================================================================
     function toggleBotonOTP() {
       var aceptado = document.getElementById('check-privacidad').checked;
       document.getElementById('btn-enviar-otp').disabled = !aceptado;
@@ -799,8 +871,6 @@
       toggleBotonOTP();
       cerrarModalPrivacidad();
     }
-
-    
 
     // =========================================================================
     // SECCIÓN MULTIMEDIA: 3 APARTADOS (CANTOS, ALABANZAS Y ROSARIOS)
@@ -949,7 +1019,7 @@
     }
 
     // =========================================================================
-    // MAPA INTERACTIVO Y CÁLCULO DE TRASLADO (LOCALIZACIÓN GPS DIRECTA SIN IP)
+    // MAPA INTERACTIVO Y CÁLCULO DE TRASLADO (OPTIMIZADO PARA MÓVIL Y PC)
     // =========================================================================
     function inicializarMapaTraslado() {
       var origenLat = (appData.trasladoConfig && appData.trasladoConfig.origenLat) ? appData.trasladoConfig.origenLat : 19.8454;
@@ -1061,15 +1131,24 @@
         alert('Tu navegador no soporta geolocalización GPS.');
         return;
       }
-      document.getElementById('desglose-traslado-label').innerHTML = 'Traslado <span class="text-slate-400">(obteniendo GPS...)</span>:';
+      document.getElementById('desglose-traslado-label').innerHTML = 'Traslado <span class="text-slate-400">(obteniendo ubicación...)</span>:';
       navigator.geolocation.getCurrentPosition(
         function(pos) {
           leafletMap.setView([pos.coords.latitude, pos.coords.longitude], 15);
           fijarDestinoEnMapa(pos.coords.latitude, pos.coords.longitude, true);
         },
-        function() {
-          alert('No se pudo obtener tu ubicación GPS😔. Por favor activa los permisos de ubicación a tu navegador o marca tu ubicación directamente en el mapa.');
+        function(err) {
           document.getElementById('desglose-traslado-label').textContent = 'Traslado:';
+          if (err.code === 1) {
+            alert('Permiso de ubicación denegado. Activa la ubicación en los ajustes de tu navegador o toca directamente el punto en el mapa.');
+          } else {
+            alert('No se pudo detectar tu señal GPS. Si abriste el enlace desde WhatsApp, ábrelo en Safari/Chrome o toca directamente el lugar en el mapa.');
+          }
+        },
+        {
+          enableHighAccuracy: false,
+          timeout: 10000,
+          maximumAge: 60000
         }
       );
     }
@@ -1232,7 +1311,7 @@
     }
 
     // =========================================================================
-    // MIS RESERVACIONES
+    // MIS RESERVACIONES (CLIENTE)
     // =========================================================================
     function abrirMisReservaciones() {
       if (!sessionToken || !userEmail) {
@@ -1730,6 +1809,8 @@
     // =========================================================================
     function abrirModalAuth() {
       volverPaso1Auth();
+      document.getElementById('check-privacidad').checked = false;
+      toggleBotonOTP();
       document.getElementById('auth-mensaje').classList.add('hidden');
       document.getElementById('modal-auth').classList.remove('hidden');
     }
@@ -1759,6 +1840,11 @@
         return;
       }
 
+      if (!document.getElementById('check-privacidad').checked) {
+        mostrarMensajeAuth('Debes aceptar la Política de Privacidad para continuar.', true);
+        return;
+      }
+
       var btn = document.getElementById('btn-enviar-otp');
       btn.disabled = true;
       btn.textContent = 'Enviando código...';
@@ -1783,11 +1869,6 @@
           btn.textContent = 'Enviar Código al Correo';
           mostrarMensajeAuth('Error de conexión: ' + err.message, true);
         });
-
-      if (!document.getElementById('check-privacidad').checked) {
-        mostrarMensajeAuth('Debes aceptar la Política de Privacidad para continuar.', true);
-        return;
-      }
     }
 
     function validarCodigoOTP() {
@@ -1810,8 +1891,12 @@
           if (res.success) {
             sessionToken = res.token;
             userEmail = res.email;
+            userRol = (res.perfil && res.perfil.rol === 'ADMIN') ? 'ADMIN' : 'CLIENTE';
+
             sessionStorage.setItem('kerigma_token', sessionToken);
             sessionStorage.setItem('kerigma_email', userEmail);
+            sessionStorage.setItem('kerigma_rol', userRol);
+
             if (res.perfil) {
               if (res.perfil.nombre) sessionStorage.setItem('kerigma_nombre', res.perfil.nombre);
               if (res.perfil.telefono) sessionStorage.setItem('kerigma_telefono', res.perfil.telefono);
@@ -1905,6 +1990,313 @@
           btn.innerHTML = '<i class="fas fa-paper-plane"></i><span>Enviar Solicitud de Reserva</span>';
           alert('Ocurrió un error inesperado: ' + err.message);
         });
+    }
+
+    // =========================================================================
+    // PANEL DE ADMINISTRACIÓN (EXCLUSIVO PARA ROL ADMIN)
+    // =========================================================================
+    var adminData = { reservas: [], servicios: [], videos: [], cupones: [] };
+    var adminTabActual = 'reservas';
+    var filtroEstadoAdmin = 'TODAS';
+
+    function abrirPanelAdmin() {
+      if (userRol !== 'ADMIN') return;
+      document.getElementById('modal-panel-admin').classList.remove('hidden');
+      cargarDatosAdmin();
+    }
+
+    function cerrarPanelAdmin() {
+      document.getElementById('modal-panel-admin').classList.add('hidden');
+      cargarDatosServidor();
+    }
+
+    function cambiarTabAdmin(tab) {
+      adminTabActual = tab;
+      var tabs = ['reservas', 'servicios', 'videos', 'cupones', 'calendario'];
+      for (var i = 0; i < tabs.length; i++) {
+        var btn = document.getElementById('admin-tab-' + tabs[i]);
+        if (btn) {
+          btn.className = (tabs[i] === tab)
+            ? 'admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-slate-900 text-white shadow-sm whitespace-nowrap'
+            : 'admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-200 whitespace-nowrap';
+        }
+      }
+      renderizarVistaAdmin();
+    }
+
+    function cargarDatosAdmin() {
+      var cont = document.getElementById('admin-contenido');
+      cont.innerHTML = '<div class="text-center py-16 text-slate-500"><i class="fas fa-spinner fa-spin text-3xl mb-3"></i><p class="text-sm font-semibold">Cargando base de datos...</p></div>';
+
+      apiCall('adminObtenerTodo', { token: sessionToken })
+        .then(function(res) {
+          if (!res.success) {
+            alert(res.message || 'No autorizado');
+            cerrarPanelAdmin();
+            return;
+          }
+          adminData = res;
+          renderizarVistaAdmin();
+        })
+        .catch(function(err) {
+          cont.innerHTML = '<p class="text-center text-red-600 text-sm">Error: ' + escapeHTML(err.message) + '</p>';
+        });
+    }
+
+    function renderizarVistaAdmin() {
+      var cont = document.getElementById('admin-contenido');
+
+      if (adminTabActual === 'reservas') {
+        var filtradas = adminData.reservas.filter(function(r) {
+          return filtroEstadoAdmin === 'TODAS' || r.estado === filtroEstadoAdmin;
+        });
+
+        var html =
+          '<div class="flex flex-wrap justify-between items-center gap-3 mb-5">' +
+            '<div class="flex flex-wrap gap-2">' +
+              ['TODAS', 'PENDIENTE', 'CONFIRMADA', 'CANCELADA'].map(function(est) {
+                var act = (filtroEstadoAdmin === est) ? 'bg-slate-800 text-white' : 'bg-white text-slate-700 border border-slate-300';
+                return '<button type="button" onclick="filtroEstadoAdmin=\'' + est + '\';renderizarVistaAdmin()" class="px-3 py-1.5 rounded-lg text-xs font-bold ' + act + '">' + est + '</button>';
+              }).join('') +
+            '</div>' +
+            '<span class="text-xs font-bold text-slate-600">' + filtradas.length + ' solicitudes</span>' +
+          '</div><div class="space-y-3">';
+
+        if (filtradas.length === 0) {
+          html += '<p class="text-center text-slate-400 py-10 text-sm">No hay reservaciones en esta categoría.</p>';
+        }
+
+        filtradas.forEach(function(r) {
+          var badge = 'bg-amber-100 text-amber-800 border-amber-300';
+          if (r.estado === 'CONFIRMADA') badge = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+          if (r.estado === 'CANCELADA') badge = 'bg-red-100 text-red-800 border-red-300';
+
+          var mapLinkHtml = r.mapsLink
+            ? '<a href="' + escapeHTML(r.mapsLink) + '" target="_blank" class="text-blue-600 underline font-semibold ml-2"><i class="fas fa-map-marker-alt"></i> Mapa (' + r.distanciaKm + ' km)</a>'
+            : '';
+
+          html +=
+            '<div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm flex flex-col lg:flex-row justify-between gap-4">' +
+              '<div class="space-y-1 text-xs text-slate-600">' +
+                '<div class="flex items-center gap-2">' +
+                  '<span class="font-mono font-bold text-slate-900">' + escapeHTML(r.idReserva) + '</span>' +
+                  '<span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold border ' + badge + '">' + escapeHTML(r.estado) + '</span>' +
+                '</div>' +
+                '<h4 class="text-base font-extrabold text-slate-900">' + escapeHTML(r.servicio) + ' — $' + Number(r.precioTotal).toLocaleString('es-MX', {minimumFractionDigits:2}) + '</h4>' +
+                '<p><strong>Cliente:</strong> ' + escapeHTML(r.clienteNombre) + ' | <strong>Tel:</strong> ' + escapeHTML(r.clienteTelefono) + ' | <strong>Correo:</strong> ' + escapeHTML(r.clienteEmail) + '</p>' +
+                '<p><strong>Evento:</strong> ' + escapeHTML(r.fechaEvento) + ' a las ' + escapeHTML(r.horaEvento) + ' hrs | <strong>Lugar:</strong> ' + escapeHTML(r.ubicacion) + mapLinkHtml + '</p>' +
+              '</div>' +
+              '<div class="flex items-center gap-2 shrink-0">' +
+                '<button type="button" onclick="cambiarEstadoDesdeAdmin(\'' + escapeHTML(r.idReserva) + '\', \'CONFIRMADA\')" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-sm transition">' +
+                  '<i class="fas fa-check mr-1"></i> Confirmar + PDF' +
+                '</button>' +
+                '<button type="button" onclick="cambiarEstadoDesdeAdmin(\'' + escapeHTML(r.idReserva) + '\', \'CANCELADA\')" class="bg-red-600 hover:bg-red-700 text-white px-3.5 py-2 rounded-xl text-xs font-bold shadow-sm transition">' +
+                  '<i class="fas fa-times mr-1"></i> Cancelar' +
+                '</button>' +
+              '</div>' +
+            '</div>';
+        });
+        html += '</div>';
+        cont.innerHTML = html;
+      }
+
+      else if (adminTabActual === 'servicios') {
+        var htmlS =
+          '<div class="bg-white p-4 rounded-xl border border-slate-200 mb-6">' +
+            '<h4 class="font-bold text-sm text-slate-900 mb-3"><i class="fas fa-plus-circle mr-1"></i> Agregar / Editar Servicio</h4>' +
+            '<input type="hidden" id="adm-srv-id">' +
+            '<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">' +
+              '<input type="text" id="adm-srv-nombre" placeholder="Nombre del servicio *" class="px-3 py-2 border rounded-lg">' +
+              '<input type="number" id="adm-srv-precio" placeholder="Precio base MXN *" class="px-3 py-2 border rounded-lg">' +
+              '<input type="text" id="adm-srv-duracion" placeholder="Duración (ej. 1.5 horas)" class="px-3 py-2 border rounded-lg">' +
+              '<select id="adm-srv-activo" class="px-3 py-2 border rounded-lg"><option value="SI">Activo: SI</option><option value="NO">Activo: NO</option></select>' +
+              '<input type="text" id="adm-srv-imagen" placeholder="URL de imagen (o link de Drive)" class="sm:col-span-2 px-3 py-2 border rounded-lg">' +
+              '<input type="text" id="adm-srv-desc" placeholder="Descripción breve del servicio" class="sm:col-span-2 px-3 py-2 border rounded-lg">' +
+            '</div>' +
+            '<div class="mt-3 flex gap-2">' +
+              '<button type="button" onclick="guardarServicioAdmin()" class="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold">Guardar Servicio</button>' +
+              '<button type="button" onclick="limpiarFormServicioAdmin()" class="bg-slate-200 text-slate-700 px-3 py-2 rounded-lg text-xs font-semibold">Limpiar</button>' +
+            '</div>' +
+          '</div><div class="grid grid-cols-1 md:grid-cols-2 gap-3">';
+
+        adminData.servicios.forEach(function(s) {
+          htmlS +=
+            '<div class="bg-white p-4 rounded-xl border border-slate-200 flex justify-between items-center gap-3">' +
+              '<div class="flex items-center gap-3">' +
+                '<img src="' + escapeHTML(s.imagen || '') + '" class="w-14 h-14 rounded-lg object-cover bg-slate-200">' +
+                '<div class="text-xs">' +
+                  '<span class="font-bold text-sm text-slate-900 block">' + escapeHTML(s.nombre) + ' ($' + s.precio + ')</span>' +
+                  '<span class="text-slate-500">' + escapeHTML(s.duracion) + ' | Activo: <strong>' + s.activo + '</strong></span>' +
+                '</div>' +
+              '</div>' +
+              '<button type="button" onclick=\'editarServicioAdmin(' + JSON.stringify(s) + ')\' class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg text-xs font-bold">Editar</button>' +
+            '</div>';
+        });
+        htmlS += '</div>';
+        cont.innerHTML = htmlS;
+      }
+
+      else if (adminTabActual === 'videos') {
+        var htmlV =
+          '<div class="bg-white p-4 rounded-xl border border-slate-200 mb-6">' +
+            '<h4 class="font-bold text-sm text-slate-900 mb-3"><i class="fas fa-video mr-1"></i> Agregar / Editar Video Multimedia</h4>' +
+            '<input type="hidden" id="adm-vid-id">' +
+            '<div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">' +
+              '<select id="adm-vid-cat" class="px-3 py-2 border rounded-lg"><option value="Cantos">Cantos</option><option value="Alabanzas">Alabanzas</option><option value="Rosarios">Rosarios</option></select>' +
+              '<input type="text" id="adm-vid-titulo" placeholder="Título del video *" class="px-3 py-2 border rounded-lg">' +
+              '<select id="adm-vid-visible" class="px-3 py-2 border rounded-lg"><option value="SI">Visible: SI</option><option value="NO">Visible: NO</option></select>' +
+              '<input type="text" id="adm-vid-url" placeholder="URL de YouTube o Google Drive *" class="sm:col-span-2 px-3 py-2 border rounded-lg">' +
+              '<input type="text" id="adm-vid-desc" placeholder="Descripción" class="px-3 py-2 border rounded-lg">' +
+            '</div>' +
+            '<button type="button" onclick="guardarVideoAdmin()" class="mt-3 bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold">Guardar Video</button>' +
+          '</div><div class="space-y-2">';
+
+        adminData.videos.forEach(function(v) {
+          htmlV +=
+            '<div class="bg-white p-3.5 rounded-xl border border-slate-200 flex justify-between items-center text-xs">' +
+              '<div><span class="px-2 py-0.5 bg-slate-100 font-bold rounded mr-2">' + escapeHTML(v.categoria) + '</span><strong>' + escapeHTML(v.titulo) + '</strong> (Visible: ' + v.visible + ')</div>' +
+              '<button type="button" onclick=\'editarVideoAdmin(' + JSON.stringify(v) + ')\' class="bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg font-bold">Editar</button>' +
+            '</div>';
+        });
+        htmlV += '</div>';
+        cont.innerHTML = htmlV;
+      }
+
+      else if (adminTabActual === 'cupones') {
+        var htmlC =
+          '<div class="bg-white p-4 rounded-xl border border-slate-200 mb-6">' +
+            '<h4 class="font-bold text-sm text-slate-900 mb-3"><i class="fas fa-tag mr-1"></i> Crear / Actualizar Cupón</h4>' +
+            '<div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 text-xs">' +
+              '<input type="text" id="adm-cup-codigo" placeholder="CÓDIGO *" class="px-3 py-2 border rounded-lg uppercase font-bold">' +
+              '<select id="adm-cup-tipo" class="px-3 py-2 border rounded-lg"><option value="PORCENTAJE">PORCENTAJE (%)</option><option value="MONTO">MONTO FIJO ($)</option></select>' +
+              '<input type="number" id="adm-cup-valor" placeholder="Valor *" class="px-3 py-2 border rounded-lg">' +
+              '<input type="date" id="adm-cup-exp" class="px-3 py-2 border rounded-lg">' +
+              '<input type="number" id="adm-cup-max" placeholder="Usos máx (ej. 50)" class="px-3 py-2 border rounded-lg">' +
+              '<select id="adm-cup-activo" class="px-3 py-2 border rounded-lg"><option value="SI">Activo: SI</option><option value="NO">Activo: NO</option></select>' +
+            '</div>' +
+            '<button type="button" onclick="guardarCuponAdmin()" class="mt-3 bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold">Guardar Cupón</button>' +
+          '</div><div class="grid grid-cols-1 md:grid-cols-3 gap-3">';
+
+        adminData.cupones.forEach(function(c) {
+          htmlC +=
+            '<div class="bg-white p-4 rounded-xl border border-slate-200 text-xs flex justify-between items-center">' +
+              '<div><strong class="text-sm text-slate-900 block">' + escapeHTML(c.codigo) + '</strong>' +
+              '<span>' + (c.tipo === 'PORCENTAJE' ? c.valor + '%' : '$' + c.valor) + ' | Usos: ' + c.usosActuales + '/' + c.usosMaximos + ' | Activo: <strong>' + c.activo + '</strong></span></div>' +
+              '<button type="button" onclick=\'editarCuponAdmin(' + JSON.stringify(c) + ')\' class="bg-slate-100 hover:bg-slate-200 px-2.5 py-1.5 rounded-lg font-bold">Editar</button>' +
+            '</div>';
+        });
+        htmlC += '</div>';
+        cont.innerHTML = htmlC;
+      }
+
+      else if (adminTabActual === 'calendario') {
+        var activos = adminData.reservas.filter(function(r) { return r.estado !== 'CANCELADA'; });
+        activos.sort(function(a, b) { return (a.fechaEvento + a.horaEvento).localeCompare(b.fechaEvento + b.horaEvento); });
+        var htmlCal = '<h4 class="font-bold text-sm text-slate-900 mb-4">Agenda Cronológica de Eventos (Confirmados y Pendientes)</h4><div class="space-y-2.5">';
+        activos.forEach(function(r) {
+          var color = r.estado === 'CONFIRMADA' ? 'border-l-4 border-l-emerald-500' : 'border-l-4 border-l-amber-400';
+          htmlCal +=
+            '<div class="bg-white p-3.5 rounded-xl border border-slate-200 ' + color + ' flex flex-wrap justify-between items-center text-xs">' +
+              '<div><strong class="text-slate-900 text-sm">' + escapeHTML(r.fechaEvento) + ' — ' + escapeHTML(r.horaEvento) + ' hrs</strong> | ' + escapeHTML(r.servicio) + ' (' + escapeHTML(r.clienteNombre) + ')</div>' +
+              '<span class="font-bold">' + escapeHTML(r.estado) + '</span>' +
+            '</div>';
+        });
+        htmlCal += '</div>';
+        cont.innerHTML = htmlCal;
+      }
+    }
+
+    function cambiarEstadoDesdeAdmin(idReserva, nuevoEstado) {
+      if (!confirm('¿Confirmas cambiar el estado de ' + idReserva + ' a ' + nuevoEstado + ' y enviar el correo al cliente?')) return;
+      apiCall('adminCambiarEstadoReserva', { token: sessionToken, idReserva: idReserva, nuevoEstado: nuevoEstado })
+        .then(function(res) {
+          alert(res.message);
+          if (res.success) cargarDatosAdmin();
+        })
+        .catch(function(err) { alert('Error: ' + err.message); });
+    }
+
+    function editarServicioAdmin(s) {
+      document.getElementById('adm-srv-id').value = s.id;
+      document.getElementById('adm-srv-nombre').value = s.nombre;
+      document.getElementById('adm-srv-precio').value = s.precio;
+      document.getElementById('adm-srv-duracion').value = s.duracion;
+      document.getElementById('adm-srv-activo').value = s.activo;
+      document.getElementById('adm-srv-imagen').value = s.imagen;
+      document.getElementById('adm-srv-desc').value = s.descripcion;
+    }
+
+    function limpiarFormServicioAdmin() {
+      document.getElementById('adm-srv-id').value = '';
+      document.getElementById('adm-srv-nombre').value = '';
+      document.getElementById('adm-srv-precio').value = '';
+      document.getElementById('adm-srv-duracion').value = '';
+      document.getElementById('adm-srv-imagen').value = '';
+      document.getElementById('adm-srv-desc').value = '';
+    }
+
+    function guardarServicioAdmin() {
+      var srv = {
+        id: document.getElementById('adm-srv-id').value,
+        nombre: document.getElementById('adm-srv-nombre').value,
+        precio: document.getElementById('adm-srv-precio').value,
+        duracion: document.getElementById('adm-srv-duracion').value,
+        activo: document.getElementById('adm-srv-activo').value,
+        imagen: document.getElementById('adm-srv-imagen').value,
+        descripcion: document.getElementById('adm-srv-desc').value
+      };
+      apiCall('adminGuardarServicio', { token: sessionToken, servicio: srv }).then(function(res) {
+        alert(res.message);
+        if (res.success) cargarDatosAdmin();
+      });
+    }
+
+    function editarVideoAdmin(v) {
+      document.getElementById('adm-vid-id').value = v.id;
+      document.getElementById('adm-vid-cat').value = v.categoria;
+      document.getElementById('adm-vid-titulo').value = v.titulo;
+      document.getElementById('adm-vid-visible').value = v.visible;
+      document.getElementById('adm-vid-url').value = v.url;
+      document.getElementById('adm-vid-desc').value = v.descripcion;
+    }
+
+    function guardarVideoAdmin() {
+      var vid = {
+        id: document.getElementById('adm-vid-id').value,
+        categoria: document.getElementById('adm-vid-cat').value,
+        titulo: document.getElementById('adm-vid-titulo').value,
+        visible: document.getElementById('adm-vid-visible').value,
+        url: document.getElementById('adm-vid-url').value,
+        descripcion: document.getElementById('adm-vid-desc').value
+      };
+      apiCall('adminGuardarVideo', { token: sessionToken, video: vid }).then(function(res) {
+        alert(res.message);
+        if (res.success) cargarDatosAdmin();
+      });
+    }
+
+    function editarCuponAdmin(c) {
+      document.getElementById('adm-cup-codigo').value = c.codigo;
+      document.getElementById('adm-cup-tipo').value = c.tipo;
+      document.getElementById('adm-cup-valor').value = c.valor;
+      document.getElementById('adm-cup-exp').value = c.expiracion;
+      document.getElementById('adm-cup-max').value = c.usosMaximos;
+      document.getElementById('adm-cup-activo').value = c.activo;
+    }
+
+    function guardarCuponAdmin() {
+      var cup = {
+        codigo: document.getElementById('adm-cup-codigo').value,
+        tipo: document.getElementById('adm-cup-tipo').value,
+        valor: document.getElementById('adm-cup-valor').value,
+        expiracion: document.getElementById('adm-cup-exp').value,
+        usosMaximos: document.getElementById('adm-cup-max').value,
+        activo: document.getElementById('adm-cup-activo').value
+      };
+      apiCall('adminGuardarCupon', { token: sessionToken, cupon: cup }).then(function(res) {
+        alert(res.message);
+        if (res.success) cargarDatosAdmin();
+      });
     }
   </script>
 </body>

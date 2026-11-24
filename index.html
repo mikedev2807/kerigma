@@ -580,6 +580,9 @@
         <button type="button" onclick="cambiarTabAdmin('cupones')" id="admin-tab-cupones" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-200 whitespace-nowrap">
           <i class="fas fa-tags mr-1.5"></i>Cupones
         </button>
+        <button type="button" onclick="cambiarTabAdmin('usuarios')" id="admin-tab-usuarios" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-200 whitespace-nowrap">
+          <i class="fas fa-users mr-1.5"></i>Usuarios
+        </button>
         <button type="button" onclick="cambiarTabAdmin('calendario')" id="admin-tab-calendario" class="admin-tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-white text-slate-700 hover:bg-slate-200 whitespace-nowrap">
           <i class="fas fa-calendar-alt mr-1.5"></i>Agenda / Calendario
         </button>
@@ -2079,7 +2082,7 @@
     // =========================================================================
     // PANEL DE ADMINISTRACIÓN (EXCLUSIVO PARA ROL ADMIN)
     // =========================================================================
-    var adminData = { precioCoronacion: 300, reservas: [], servicios: [], videos: [], cupones: [] };
+    var adminData = { precioCoronacion: 300, reservas: [], servicios: [], videos: [], cupones: [], usuarios: [] };
     var adminTabActual = 'reservas';
     var filtroEstadoAdmin = 'TODAS';
 
@@ -2096,7 +2099,7 @@
 
     function cambiarTabAdmin(tab) {
       adminTabActual = tab;
-      var tabs = ['reservas', 'servicios', 'videos', 'cupones', 'calendario'];
+      var tabs = ['reservas', 'servicios', 'videos', 'cupones', 'usuarios', 'calendario'];
       for (var i = 0; i < tabs.length; i++) {
         var btn = document.getElementById('admin-tab-' + tabs[i]);
         if (btn) {
@@ -2305,22 +2308,164 @@
         cont.innerHTML = htmlC;
       }
 
-      else if (adminTabActual === 'calendario') {
-        var activos = adminData.reservas.filter(function(r) { return r.estado !== 'CANCELADA'; });
-        activos.sort(function(a, b) { return (a.fechaEvento + a.horaEvento).localeCompare(b.fechaEvento + b.horaEvento); });
-        var htmlCal = '<h4 class="font-bold text-sm text-slate-900 mb-4">Agenda Cronológica de Eventos (Confirmados, Completados y Pendientes)</h4><div class="space-y-2.5">';
-        activos.forEach(function(r) {
-          var color = 'border-l-4 border-l-amber-400';
-          if (r.estado === 'CONFIRMADA') color = 'border-l-4 border-l-emerald-500';
-          if (r.estado === 'COMPLETADA') color = 'border-l-4 border-l-blue-500';
-          htmlCal +=
-            '<div class="bg-white p-3.5 rounded-xl border border-slate-200 ' + color + ' flex flex-wrap justify-between items-center text-xs">' +
-              '<div><strong class="text-slate-900 text-sm">' + escapeHTML(r.fechaEvento) + ' — ' + escapeHTML(r.horaEvento) + ' hrs</strong> | ' + escapeHTML(r.servicio) + ' (' + escapeHTML(r.clienteNombre) + ')</div>' +
-              '<span class="font-bold">' + escapeHTML(r.estado) + '</span>' +
+      else if (adminTabActual === 'usuarios') {
+        var listaU = (adminData.usuarios || []).filter(function(u) {
+          if (!filtroUsuarioAdmin) return true;
+          var q = filtroUsuarioAdmin.toLowerCase();
+          return (u.nombre || '').toLowerCase().indexOf(q) !== -1 || (u.email || '').toLowerCase().indexOf(q) !== -1;
+        });
+
+        var htmlU =
+          '<div class="flex flex-wrap justify-between items-center gap-3 mb-4">' +
+            '<input type="text" value="' + escapeHTML(filtroUsuarioAdmin) + '" oninput="filtroUsuarioAdmin=this.value;renderizarVistaAdmin()" placeholder="Buscar usuario por nombre o correo..." class="w-full sm:w-80 px-3.5 py-2 border border-slate-300 rounded-xl text-xs bg-white">' +
+            '<span class="text-xs font-bold text-slate-600">' + listaU.length + ' usuarios</span>' +
+          '</div><div class="space-y-2.5">';
+
+        if (listaU.length === 0) {
+          htmlU += '<p class="text-center text-slate-400 py-10 text-sm">No se encontraron usuarios.</p>';
+        }
+
+        listaU.forEach(function(u) {
+          var badgeRol = u.rol === 'ADMIN' ? 'bg-amber-100 text-amber-900 border-amber-300' : 'bg-slate-100 text-slate-700 border-slate-300';
+          htmlU +=
+            '<div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex flex-col lg:flex-row lg:items-center justify-between gap-3 text-xs">' +
+              '<div class="space-y-1">' +
+                '<div class="flex items-center gap-2">' +
+                  '<span class="font-mono font-bold text-slate-500">' + escapeHTML(u.id) + '</span>' +
+                  '<span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold border ' + badgeRol + '">' + escapeHTML(u.rol) + '</span>' +
+                  '<span class="text-slate-400">Reservas: <strong>' + u.totalReservas + '</strong></span>' +
+                '</div>' +
+                '<p class="font-bold text-slate-900 text-sm">' + escapeHTML(u.email) + '</p>' +
+              '</div>' +
+              '<div class="grid grid-cols-1 sm:grid-cols-4 gap-2 items-center">' +
+                '<input type="text" id="usr-nom-' + escapeHTML(u.id) + '" value="' + escapeHTML(u.nombre) + '" placeholder="Nombre completo" class="px-3 py-1.5 border border-slate-300 rounded-lg">' +
+                '<input type="text" id="usr-tel-' + escapeHTML(u.id) + '" value="' + escapeHTML(u.telefono) + '" placeholder="Teléfono" class="px-3 py-1.5 border border-slate-300 rounded-lg">' +
+                '<select id="usr-rol-' + escapeHTML(u.id) + '" class="px-3 py-1.5 border border-slate-300 rounded-lg font-bold">' +
+                  '<option value="CLIENTE"' + (u.rol === 'CLIENTE' ? ' selected' : '') + '>CLIENTE</option>' +
+                  '<option value="ADMIN"' + (u.rol === 'ADMIN' ? ' selected' : '') + '>ADMIN</option>' +
+                '</select>' +
+                '<button type="button" onclick="guardarUsuarioDesdeAdmin(\'' + escapeHTML(u.id) + '\')" class="bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-1.5 rounded-lg font-bold transition">' +
+                  '<i class="fas fa-save mr-1"></i> Guardar' +
+                '</button>' +
+              '</div>' +
             '</div>';
         });
-        htmlCal += '</div>';
-        cont.innerHTML = htmlCal;
+        htmlU += '</div>';
+        cont.innerHTML = htmlU;
+      }
+
+      else if (adminTabActual === 'calendario') {
+        var mesesNombres = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+        var diasSemana = ['do.', 'lu.', 'ma.', 'mi.', 'ju.', 'vi.', 'sá.'];
+
+        // Agrupar reservas no canceladas por fecha YYYY-MM-DD
+        var eventosPorFecha = {};
+        (adminData.reservas || []).forEach(function(r) {
+          if (r.estado !== 'CANCELADA' && r.fechaEvento) {
+            if (!eventosPorFecha[r.fechaEvento]) eventosPorFecha[r.fechaEvento] = [];
+            eventosPorFecha[r.fechaEvento].push(r);
+          }
+        });
+
+        var primerDiaMes = new Date(calAdminAnio, calAdminMes, 1).getDay();
+        var diasEnMes = new Date(calAdminAnio, calAdminMes + 1, 0).getDate();
+        var hoyObj = new Date();
+        var hoyStr = hoyObj.getFullYear() + '-' + String(hoyObj.getMonth() + 1).padStart(2, '0') + '-' + String(hoyObj.getDate()).padStart(2, '0');
+
+        if (!calAdminFechaSeleccionada) calAdminFechaSeleccionada = hoyStr;
+
+        var celdasHtml = '';
+        for (var b = 0; b < primerDiaMes; b++) {
+          celdasHtml += '<div class="h-14 sm:h-16 rounded-xl bg-slate-800/40"></div>';
+        }
+
+        for (var d = 1; d <= diasEnMes; d++) {
+          var fechaCell = calAdminAnio + '-' + String(calAdminMes + 1).padStart(2, '0') + '-' + String(d).padStart(2, '0');
+          var evs = eventosPorFecha[fechaCell] || [];
+          var esSeleccionado = (calAdminFechaSeleccionada === fechaCell);
+          var esHoy = (fechaCell === hoyStr);
+
+          var estiloDia = 'bg-slate-800 text-slate-200 hover:bg-slate-700';
+          if (evs.length > 0) {
+            var tieneConfirmada = evs.some(function(x) { return x.estado === 'CONFIRMADA'; });
+            var tienePendiente = evs.some(function(x) { return x.estado === 'PENDIENTE'; });
+            if (tienePendiente) estiloDia = 'bg-amber-500/20 text-amber-200 border border-amber-400/60 hover:bg-amber-500/30';
+            else if (tieneConfirmada) estiloDia = 'bg-emerald-500/25 text-emerald-200 border border-emerald-400/60 hover:bg-emerald-500/35';
+            else estiloDia = 'bg-sky-500/25 text-sky-200 border border-sky-400/60 hover:bg-sky-500/35';
+          }
+          if (esSeleccionado) {
+            estiloDia = 'bg-sky-400 text-slate-950 font-black shadow-lg scale-[1.03]';
+          }
+
+          var puntosHtml = '';
+          if (evs.length > 0) {
+            puntosHtml = '<span class="mt-1 px-1.5 py-0.2 rounded-full text-[10px] font-extrabold ' + (esSeleccionado ? 'bg-slate-950 text-sky-300' : 'bg-white/15 text-white') + '">' + evs.length + ' ev.</span>';
+          } else if (esHoy) {
+            puntosHtml = '<span class="mt-1 text-[9px] uppercase tracking-wider opacity-75">Hoy</span>';
+          }
+
+          celdasHtml +=
+            '<button type="button" onclick="calAdminFechaSeleccionada=\'' + fechaCell + '\';renderizarVistaAdmin()" class="h-14 sm:h-16 rounded-xl flex flex-col items-center justify-center transition ' + estiloDia + '">' +
+              '<span class="text-sm sm:text-base font-bold">' + d + '</span>' +
+              puntosHtml +
+            '</button>';
+        }
+
+        // Detalle de los compromisos del día seleccionado
+        var eventosDia = (eventosPorFecha[calAdminFechaSeleccionada] || []).slice().sort(function(a, b) {
+          return a.horaEvento.localeCompare(b.horaEvento);
+        });
+
+        var detalleDiaHtml = '';
+        if (eventosDia.length === 0) {
+          detalleDiaHtml = '<p class="text-xs text-slate-400 italic py-6 text-center">No hay compromisos agendados para el ' + escapeHTML(calAdminFechaSeleccionada) + '.</p>';
+        } else {
+          eventosDia.forEach(function(ev) {
+            var colorBorde = 'border-l-amber-400';
+            if (ev.estado === 'CONFIRMADA') colorBorde = 'border-l-emerald-500';
+            if (ev.estado === 'COMPLETADA') colorBorde = 'border-l-sky-500';
+            var notaHtml = ev.notasAdmin ? '<p class="text-amber-700 font-semibold mt-1"><i class="fas fa-sticky-note mr-1"></i>Nota: ' + escapeHTML(ev.notasAdmin) + '</p>' : '';
+
+            detalleDiaHtml +=
+              '<div class="bg-white p-4 rounded-xl border border-slate-200 border-l-4 ' + colorBorde + ' shadow-sm text-xs space-y-1">' +
+                '<div class="flex justify-between items-center">' +
+                  '<strong class="text-sm text-slate-900">' + escapeHTML(ev.horaEvento) + ' hrs — ' + escapeHTML(ev.servicio) + '</strong>' +
+                  '<span class="font-extrabold px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800">' + escapeHTML(ev.estado) + '</span>' +
+                '</div>' +
+                '<p class="text-slate-600"><strong>Cliente:</strong> ' + escapeHTML(ev.clienteNombre) + ' (' + escapeHTML(ev.clienteTelefono) + ')</p>' +
+                '<p class="text-slate-600"><strong>Lugar:</strong> ' + escapeHTML(ev.ubicacion) + '</p>' +
+                notaHtml +
+              '</div>';
+          });
+        }
+
+        cont.innerHTML =
+          '<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">' +
+            '<div class="lg:col-span-7 bg-slate-900 text-white p-5 rounded-2xl shadow-lg">' +
+              '<div class="flex justify-between items-center mb-4">' +
+                '<h4 class="text-base sm:text-lg font-extrabold capitalize">' + mesesNombres[calAdminMes] + ' de ' + calAdminAnio + '</h4>' +
+                '<div class="flex items-center space-x-2">' +
+                  '<button type="button" onclick="cambiarMesCalendarioAdmin(-1)" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition"><i class="fas fa-chevron-up"></i></button>' +
+                  '<button type="button" onclick="cambiarMesCalendarioAdmin(1)" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center transition"><i class="fas fa-chevron-down"></i></button>' +
+                '</div>' +
+              '</div>' +
+              '<div class="grid grid-cols-7 gap-1.5 text-center text-xs font-bold text-slate-400 mb-2">' +
+                diasSemana.map(function(ds) { return '<div>' + ds + '</div>'; }).join('') +
+              '</div>' +
+              '<div class="grid grid-cols-7 gap-1.5">' + celdasHtml + '</div>' +
+              '<div class="mt-4 pt-3 border-t border-slate-800 flex flex-wrap gap-3 text-[11px] text-slate-300">' +
+                '<span><i class="fas fa-square text-amber-400 mr-1"></i>Pendiente</span>' +
+                '<span><i class="fas fa-square text-emerald-400 mr-1"></i>Confirmada</span>' +
+                '<span><i class="fas fa-square text-sky-400 mr-1"></i>Día seleccionado</span>' +
+              '</div>' +
+            '</div>' +
+            '<div class="lg:col-span-5 space-y-3">' +
+              '<h4 class="font-bold text-sm text-slate-900 bg-white px-4 py-3 rounded-xl border border-slate-200">' +
+                '<i class="far fa-calendar-check text-sky-600 mr-1.5"></i>Compromisos del día: <strong>' + escapeHTML(calAdminFechaSeleccionada) + '</strong>' +
+              '</h4>' +
+              detalleDiaHtml +
+            '</div>' +
+          '</div>';
       }
     }
 
@@ -2501,6 +2646,39 @@
         if (res.success) cargarDatosAdmin();
       });
     }
+var filtroUsuarioAdmin = '';
+    var calAdminAnio = new Date().getFullYear();
+    var calAdminMes = new Date().getMonth();
+    var calAdminFechaSeleccionada = '';
+
+    function cambiarMesCalendarioAdmin(delta) {
+      calAdminMes += delta;
+      if (calAdminMes < 0) {
+        calAdminMes = 11;
+        calAdminAnio--;
+      } else if (calAdminMes > 11) {
+        calAdminMes = 0;
+        calAdminAnio++;
+      }
+      renderizarVistaAdmin();
+    }
+
+    function guardarUsuarioDesdeAdmin(idUsuario) {
+      var nombre = document.getElementById('usr-nom-' + idUsuario).value.trim();
+      var telefono = document.getElementById('usr-tel-' + idUsuario).value.trim();
+      var rol = document.getElementById('usr-rol-' + idUsuario).value;
+
+      apiCall('adminGuardarUsuario', {
+        token: sessionToken,
+        usuario: { id: idUsuario, nombre: nombre, telefono: telefono, rol: rol }
+      })
+        .then(function(res) {
+          alert(res.message);
+          if (res.success) cargarDatosAdmin();
+        })
+        .catch(function(err) { alert('Error: ' + err.message); });
+    }
+    
   </script>
 </body>
 </html>

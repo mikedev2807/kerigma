@@ -1,0 +1,19 @@
+{
+  "name": "Kerigma | El que canta ora dos veces",
+  "short_name": "Kerigma",
+  "description": "Plataforma oficial de reservaciones musicales y gestión del ministerio Kerigma.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#4b4b4d",
+  "theme_color": "#4b4b4d",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='108' fill='%234b4b4d'/%3E%3Cg transform='translate(85, 136) rotate(-25)'%3E%3Crect x='42' y='0' width='38' height='154' rx='6' fill='none' stroke='%23ffffff' stroke-width='13'/%3E%3Crect x='0' y='38' width='124' height='38' rx='6' fill='none' stroke='%23ffffff' stroke-width='13'/%3E%3C/g%3E%3Cpath d='M 188 248 Q 264 196, 324 273 T 452 230' fill='none' stroke='%23ffffff' stroke-width='11'/%3E%3Ccircle cx='248' cy='239' r='19' fill='%23ffffff'/%3E%3Ccircle cx='307' cy='264' r='19' fill='%23ffffff'/%3E%3Ccircle cx='410' cy='248' r='21' fill='%23ffffff'/%3E%3Ctext x='256' y='435' font-family='Arial, sans-serif' font-weight='900' font-size='94' letter-spacing='8' fill='%23ffffff' text-anchor='middle'%3EKRG%3C/text%3E%3C/svg%3E",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

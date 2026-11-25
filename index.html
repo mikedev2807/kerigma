@@ -135,8 +135,14 @@
         <i class="far fa-calendar-check w-5 text-slate-500"></i> Mis Reservaciones
       </button>
 
+      <button type="button" id="btn-instalar-pwa" onclick="instalarAppKerigma()" class="hidden w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200 transition">
+        <i class="fas fa-mobile-alt w-5 text-amber-600"></i> Instalar App en mi Celular
+      </button>
+      
       <!-- Área dinámica de Sesión / Panel Admin en Móvil -->
       <div id="mobile-user-status-area" class="pt-2 border-t border-slate-200 space-y-2"></div>
+
+      
     </div>
   </nav>
   <!-- BANNER DE SESIÓN -->
@@ -2751,6 +2757,50 @@ var filtroUsuarioAdmin = '';
           if (res.success) cargarDatosAdmin();
         })
         .catch(function(err) { alert('Error: ' + err.message); });
+    }
+
+    // =========================================================================
+    // PWA: SERVICE WORKER E INSTALACIÓN EN ANDROID / IOS
+    // =========================================================================
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('./sw.js').catch(function(err) {
+          console.log('SW no registrado:', err);
+        });
+      });
+    }
+
+    var deferredPromptPWA = null;
+
+    window.addEventListener('beforeinstallprompt', function(e) {
+      e.preventDefault();
+      deferredPromptPWA = e;
+      var btnPwa = document.getElementById('btn-instalar-pwa');
+      if (btnPwa) btnPwa.classList.remove('hidden');
+    });
+
+    // Mostrar también la guía en iPhone/iPad (Safari) si aún no está instalada
+    window.addEventListener('DOMContentLoaded', function() {
+      var isIos = /iphone|ipad|ipod/.test(window.navigator.userAgent.toLowerCase());
+      var isInStandalone = ('standalone' in window.navigator) && window.navigator.standalone;
+      if (isIos && !isInStandalone) {
+        var btnPwa = document.getElementById('btn-instalar-pwa');
+        if (btnPwa) btnPwa.classList.remove('hidden');
+      }
+    });
+
+    function instalarAppKerigma() {
+      cerrarMobileMenu();
+      if (deferredPromptPWA) {
+        deferredPromptPWA.prompt();
+        deferredPromptPWA.userChoice.then(function() {
+          deferredPromptPWA = null;
+          var btnPwa = document.getElementById('btn-instalar-pwa');
+          if (btnPwa) btnPwa.classList.add('hidden');
+        });
+      } else {
+        alert('Para instalar Kerigma en iPhone/iPad:\n1. Toca el botón Compartir (cuadro con flecha hacia arriba) en Safari.\n2. Selecciona "Agregar a pantalla de inicio".');
+      }
     }
     
   </script>

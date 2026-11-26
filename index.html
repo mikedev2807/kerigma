@@ -95,6 +95,7 @@
             <i class="far fa-calendar-check text-slate-500"></i>
             <span>Mis Reservaciones</span>
           </button>
+          
         </div>
 
         <!-- Controles Derecha: Usuario Escritorio + Carrito + Botón Hamburguesa Móvil -->
@@ -105,6 +106,12 @@
               <span>Iniciar Sesión</span>
             </button>
           </div>
+
+          <!-- Botón Recargar Datos en Vivo -->
+          <button type="button" onclick="recargarDatosEnVivo(this)" title="Actualizar información"
+                  class="bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 w-10 h-10 rounded-full flex items-center justify-center text-sm transition">
+            <i class="fas fa-sync-alt"></i>
+          </button>
 
           <button type="button" onclick="toggleCarrito()" class="relative bg-brand-charcoal hover:bg-slate-800 text-white px-3.5 sm:px-4 py-2.5 rounded-full font-bold text-xs sm:text-sm shadow-md transition flex items-center space-x-2">
             <i class="fas fa-shopping-cart"></i>
@@ -133,6 +140,10 @@
       </a>
       <button type="button" onclick="cerrarMobileMenu(); abrirMisReservaciones();" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-100 transition">
         <i class="far fa-calendar-check w-5 text-slate-500"></i> Mis Reservaciones
+      </button>
+
+      <button type="button" onclick="cerrarMobileMenu(); recargarDatosEnVivo();" class="w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-semibold text-slate-700 hover:bg-slate-100 transition">
+        <i class="fas fa-sync-alt w-5 text-slate-500"></i> Actualizar Datos
       </button>
 
       <button type="button" id="btn-instalar-pwa" onclick="instalarAppKerigma()" class="hidden w-full text-left px-3.5 py-2.5 rounded-xl text-sm font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200 transition">
@@ -2801,6 +2812,48 @@ var filtroUsuarioAdmin = '';
       } else {
         alert('Para instalar Kerigma en iPhone/iPad:\n1. Toca el botón Compartir (cuadro con flecha hacia arriba) en Safari.\n2. Selecciona "Agregar a pantalla de inicio".');
       }
+    }
+
+    // =========================================================================
+    // RECARGA DE DATOS EN VIVO SIN CERRAR SESIÓN
+    // =========================================================================
+    function recargarDatosEnVivo(btnEl) {
+      var icon = btnEl ? btnEl.querySelector('i') : null;
+      if (icon) icon.classList.add('fa-spin');
+
+      var modalAdmin = document.getElementById('modal-panel-admin');
+      var modalMisRes = document.getElementById('modal-mis-reservas');
+
+      // 1. Si el Panel Admin está abierto, sincroniza todo el panel
+      if (modalAdmin && !modalAdmin.classList.contains('hidden') && userRol === 'ADMIN') {
+        cargarDatosAdmin();
+        setTimeout(function() { if (icon) icon.classList.remove('fa-spin'); }, 900);
+        return;
+      }
+
+      // 2. Si Mis Reservaciones está abierto, actualiza el historial del cliente
+      if (modalMisRes && !modalMisRes.classList.contains('hidden') && sessionToken) {
+        cargarMisReservaciones();
+        setTimeout(function() { if (icon) icon.classList.remove('fa-spin'); }, 900);
+        return;
+      }
+
+      // 3. En la vista principal, recarga servicios, videos, reseñas y disponibilidad
+      apiCall('obtenerDatosIniciales', {})
+        .then(function(res) {
+          if (icon) icon.classList.remove('fa-spin');
+          if (res) {
+            appData = res;
+            renderizarServicios();
+            renderizarVideos();
+            renderizarResenas();
+            reiniciarTemporizadorInactividad();
+          }
+        })
+        .catch(function(err) {
+          if (icon) icon.classList.remove('fa-spin');
+          alert('No se pudieron actualizar los datos: ' + err.message);
+        });
     }
     
   </script>
